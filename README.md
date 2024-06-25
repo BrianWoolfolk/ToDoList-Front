@@ -1,106 +1,70 @@
-# TO DO LIST APP
-## Front End (React)
+# Getting Started with Create React App
 
-# Functional Requirements 
-You are working with a client that needs to implement a to do list to help manage their tasks in their daily job. The client asked you to implement the following functionality:
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-1. Create a “to do” specifying the name, a priority, and possibly a due date 
-2. Ability to edit name, priority and due date for existing “to do” tasks 
-    1. They want to be able to specify a due date or clear the due date (because they are not interested in when to finish that “to do”) 
-3. Be able to filter “to do’s” specifying the name (or part of the name), and the priority, and if they are done/undone. 
-4. Be able to sort the “to do’s” by priority and/or due date.   
-    1. For example, be able to sort items where their due date is soon and sort them also by priority to see what tasks are more urgent or less urgent 
-5. Mark “to do’s” as done (clicking in a checkbox) or to undone a “to do” 
-    1. The undone functionality is just there if there is a mistake :D 
-6. Since it is possible that the client will have a lot of “to do’s” they need to paginate the list of “to do’s” 
-7. Ability to know, in average, the time between creation and done for all “to do’s”. This should be shown in general for all done “to do’s” and also grouped by priority. 
-    1. This is important for the client since this is a metric they follow to measure performance. 
+## Available Scripts
 
-# Technical Requirements 
-## UI Requirements 
-The UX/UI Team of the client is asking you to conform with the following markup to design the app. 
+In the project directory, you can run:
 
-> (See image)[./instructions-img.png]
+### `npm start`
 
-1. Search/Filtering Controls 
-2. New To Do Button. This should open a modal to type the “to do” data. 
-3. Priority column should show in the header the classic up and down arrows to allow the user to sort 
-4. Due date column should show in the header the classic up and own arrows to allow the user to sort 
-5. Action column to show actions (links/buttons) to allow the user to delete or edit a “to do” 
-    1. To Edit is ok to show a modal similar to the one to create a “to do” 
-6. Pagination control. Showing the pages, its number and the next and previous page is enough. 
-7. Area to show the metrics 
+Runs the app in the development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-## Nice to have for the UI 
+The page will reload when you make changes.\
+You may also see any lint errors in the console.
 
-1. Show the row with background colors depending on the due date: 
-    1. No due date – No background color 
-    2. One week between due date and today – Red background color 
-    3. 2 weeks between due date and today – Yellow background color 
-    4. More that 2 weeks between due date and today – Green background color 
-2. Strikethrough fonts for those tasks marked as done 
+### `npm test`
 
-# Engineering Requirements 
+Launches the test runner in the interactive watch mode.\
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-The Engineering team of the client is asking you to implement the functionality using the following recommendations: 
+### `npm run build`
 
-## Model 
-A “to do” should have the following properties: 
+Builds the app for production to the `build` folder.\
+It correctly bundles React in production mode and optimizes the build for the best performance.
 
-1. Id. This could be a number or string or a combination. Must be unique. 
-2. Text (required). Max length is 120 chars. 
-3. A due date (optional). 
-4. Done/undone flag 
-5. A done date. When the “to do” is marked as done this date is set 
-6. Priority (required). Options: High, Medium and Low. 
-7. Creation date. 
+The build is minified and the filenames include the hashes.\
+Your app is ready to be deployed!
 
-## API 
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-1. A GET endpoint (/todos) to list “to do’s” 
-    1. Include pagination. Pages should be of 10 elements. 
-    2. Sort by priority and/or due date 
-    3. Filter by done/undone 
-    4. Filter by the name or part of the name 
-    5. Filter by priority 
-2. A POST endpoint (/todos) to create “to do’s” 
-    1. Validations included 
-3. A PUT endpoint (/todos/{id}) to update the “to do” name, due date and/or priority 
-    1. Validations included 
-4. A POST endpoint (/todos/{id}/done) to mark “to do” as done 
-    1. This should update the “done date” property 
-    2. If “to do” is already done nothing should happen (no error returned) 
-5. A PUT endpoint (/todos/{id}/undone) to mark “to do” as undone 
-    1. If “to do” is already undone nothing should happen 
-    2. If “to do” is done, this should clear the done date 
+### `npm run eject`
 
-# Database 
-No need to use a database by now, storing data could be in memory using Java Collections (no in-memory databases like H2) and it is ok if data is lost when the application is shutdown. But they are asking you to design the persistent layer such that it will be somehow easy to switch from in-memory implementation to a database implementation (they are planning to implement the database implementation later). 
+**Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
-# Front-end Technology 
-For the front-end project, you have to use:
+If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-- JavaScript
-- ReactJS
-- Up to you to use Redux or React Context
+Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
-They need at least the following commands to run the project:
+You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-> - `npm run start` – To run the front-end application
-> - `npm run tests` – To run all tests in the front-end application
+## Learn More
 
-Front end project must run in port 8080.
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-# Back-end Technology 
-For the back-end project, you have to use: 
+To learn React, check out the [React documentation](https://reactjs.org/).
 
-- Java 
-- Maven  
-- Spring Boot 
+### Code Splitting
 
-They need at least the following commands to run the project: 
+This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
 
-> - `mvn spring-boot:run` – To run the back-end application 
-> - `nvn test` – To run all tests in the back-end application 
+### Analyzing the Bundle Size
 
-Back-end project must run in port 9090.
+This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+
+### Making a Progressive Web App
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+
+### Advanced Configuration
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+
+### Deployment
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+
+### `npm run build` fails to minify
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
