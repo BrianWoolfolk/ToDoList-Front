@@ -4,6 +4,7 @@ import HomeScreen from "./screens/HomeScreen";
 import NotFoundScreen from "./screens/NotFoundScreen";
 import TodosScreen from "./screens/TodosScreen";
 import { GET, randomTodo } from "./utils/SimulateBack";
+import { parseNumber } from "./scripts/scripts";
 
 /**
  * GET endpoint
@@ -21,11 +22,11 @@ async function loadTodos(req) {
     priority: url.searchParams.get("priority") || null,
   };
 
-  return await GET(pag, filt);
+  return await GET(parseNumber(pag), filt);
 }
 
 /** @type {import("./utils/SimulateBack").ToDo[]} */
-export const DB = randomTodo(15);
+export const DB = randomTodo(45);
 
 function App() {
   return (

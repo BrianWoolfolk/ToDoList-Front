@@ -1,11 +1,19 @@
-import { Outlet, useLoaderData } from "react-router";
+import { Outlet, useLoaderData, useLocation, useNavigate } from "react-router";
 import { intoInputDate } from "../scripts/scripts";
 import SearchControls from "../components/SearchControls";
 import { Link } from "react-router-dom";
 
 const TodosScreen = () => {
   /** @type {import("../utils/SimulateBack").ToDo[]} */
-  const data = useLoaderData();
+  const { data, page, maxpage } = useLoaderData();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  function r(p) {
+    const s = new URLSearchParams(location.search);
+    s.set("pag", p);
+    return () => navigate(`${location.pathname}?${s}`);
+  }
 
   return (
     <>
@@ -41,6 +49,35 @@ const TodosScreen = () => {
           })}
         </tbody>
       </table>
+
+      <hr />
+      <div>
+        <button onClick={r(1)}>⇤</button>
+
+        {page - 1 >= 1 && (
+          <>
+            <button onClick={r(page - 1)}>◀︎</button>
+            {page - 1 > 1 && "..."}
+            <button onClick={r(page - 1)}>{page - 1}</button>
+          </>
+        )}
+
+        <b>{page}</b>
+
+        {page + 1 <= maxpage && (
+          <>
+            <button onClick={r(page + 1)}>{page + 1}</button>
+            {page + 1 < maxpage && "..."}
+            <button onClick={r(page + 1)}>▶︎</button>
+          </>
+        )}
+
+        <button onClick={r(maxpage)}>⇥</button>
+      </div>
+
+      <h3>
+        page {page} of {maxpage}
+      </h3>
 
       <Outlet />
 

@@ -1,5 +1,5 @@
 import { DB } from "../App";
-import { randomDate, randomRange } from "../scripts/scripts";
+import { boundaries, randomDate, randomRange } from "../scripts/scripts";
 
 /**
  *
@@ -58,7 +58,10 @@ export async function GET(
     });
   }
 
-  return aux;
+  const maxpage = Math.ceil(aux.length / 10) || 1;
+  const pp = boundaries(pag, 1, maxpage);
+
+  return { data: aux.slice(10 * (pp - 1), 10 * pp), page: pp, maxpage };
 }
 
 /**
