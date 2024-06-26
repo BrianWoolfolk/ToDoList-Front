@@ -1,14 +1,11 @@
+import { DB } from "../App";
 import { randomDate, randomRange } from "../scripts/scripts";
-import DB from "./db.json";
-
-/** @type {ToDo[]} */
-const list = randomTodo(15);
 
 /**
  *
  * @param {number} size
  */
-function randomTodo(size) {
+export function randomTodo(size) {
   const p = ["high", "medium", "low"];
   const aux = [];
 
@@ -31,22 +28,37 @@ function randomTodo(size) {
 }
 
 /** @typedef {"high" | "medium" | "low"} Priority */
-/** @typedef {{done: boolean | null, name: string | null, priority: Priority | null }} Filters */
+/** @typedef {{done: boolean | null, text: string | null, priority: Priority | null }} Filters */
 /** @typedef {{done: "asc" | "desc" | null, priority: "asc" | "desc" | null}} Sorts */
 /** @typedef {{id: number, text: string, due_date: string | null, done: boolean, done_date: string | null, priority: Priority, creation_date: string}} ToDo */
 
 /**
  * Returns all ToDo's
  * @param {number} pag
- * @param {Priority} filter
+ * @param {Filters} filter
  * @param {Sorts} sort
  */
 export async function GET(
   pag = 1,
-  filter = { done: null, name: null, priority: null },
+  filter = { done: null, text: null, priority: null },
   sort = { done: null, priority: null }
 ) {
-  return list;
+  let aux = DB;
+
+  if (filter) {
+    const priors = ["high", "medium", "low"];
+    aux = DB.filter((todo) => {
+      if (filter.text && !todo.text.includes(filter.text)) return false;
+      if (typeof filter.done === "boolean" && filter.done !== todo.done)
+        return false;
+      if (priors.includes(filter.priority) && filter.priority !== todo.priority)
+        return false;
+
+      return true;
+    });
+  }
+
+  return aux;
 }
 
 /**
@@ -55,7 +67,7 @@ export async function GET(
  * @returns Success or Failure status
  */
 export async function POST(todo) {
-  list.push(todo);
+  DB.push(todo);
   return true;
 }
 
@@ -65,7 +77,7 @@ export async function POST(todo) {
  * @returns Success or Failure status
  */
 export async function PUT(todo) {
-  list[0] = { ...todo };
+  DB[0] = { ...todo };
   return true;
 }
 
@@ -76,10 +88,10 @@ export async function PUT(todo) {
  * @returns Success or Failure status
  */
 export async function COMPLETE(id, done = true) {
-  if (list[0].done === done) return true;
+  if (DB[0].done === done) return true;
 
-  list[0].done = done;
-  list[0].done_date = done ? new Date().toISOString() : null;
+  DB[0].done = done;
+  DB[0].done_date = done ? new Date().toISOString() : null;
 
   return true;
 }
