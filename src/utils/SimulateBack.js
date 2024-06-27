@@ -1,5 +1,10 @@
 import { DB } from "../App";
-import { boundaries, randomDate, randomRange } from "../scripts/scripts";
+import {
+  boundaries,
+  fromInputDate,
+  randomDate,
+  randomRange,
+} from "../scripts/scripts";
 
 /**
  *
@@ -21,6 +26,8 @@ export function randomTodo(size) {
       text: "Texto de ejemplo " + i,
     };
 
+    if (todo.done) todo.done_date = randomDate(todo.creation_date);
+
     aux.push(todo);
   }
 
@@ -30,7 +37,7 @@ export function randomTodo(size) {
 /** @typedef {"high" | "medium" | "low"} Priority */
 /** @typedef {{done: boolean | null, text: string | null, priority: Priority | null }} Filters */
 /** @typedef {{done: "asc" | "desc" | null, priority: "asc" | "desc" | null}} Sorts */
-/** @typedef {{id: number, text: string, due_date: string | null, done: boolean, done_date: string | null, priority: Priority, creation_date: string}} ToDo */
+/** @typedef {{id: number, text: string, due_date: Date | null, done: boolean, done_date: Date | null, priority: Priority, creation_date: Date}} ToDo */
 
 /**
  * Returns all ToDo's
@@ -66,10 +73,25 @@ export async function GET(
 
 /**
  * Creates new ToDo
- * @param {ToDo} todo
+ * @param {string} text
+ * @param {string} priority
+ * @param {string?} due_date
  * @returns Success or Failure status
  */
-export async function POST(todo) {
+export async function POST(text, priority, due_date) {
+  const todo = {
+    id: DB.length,
+    text,
+    priority,
+    due_date: due_date ? fromInputDate(due_date) : null,
+    done: false,
+    done_date: null,
+    creation_date: new Date(),
+  };
+
+  if (!["low", "medium", "high"].includes(priority)) return false;
+  if (!text) return false;
+
   DB.push(todo);
   return true;
 }
@@ -94,7 +116,7 @@ export async function COMPLETE(id, done = true) {
   if (DB[0].done === done) return true;
 
   DB[0].done = done;
-  DB[0].done_date = done ? new Date().toISOString() : null;
+  DB[0].done_date = done ? new Date() : null;
 
   return true;
 }

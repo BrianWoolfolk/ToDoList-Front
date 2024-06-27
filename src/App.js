@@ -3,7 +3,7 @@ import "./theme/styles.css";
 import HomeScreen from "./screens/HomeScreen";
 import NotFoundScreen from "./screens/NotFoundScreen";
 import TodosScreen from "./screens/TodosScreen";
-import { GET, randomTodo } from "./utils/SimulateBack";
+import { GET, POST, randomTodo } from "./utils/SimulateBack";
 import { parseNumber } from "./scripts/scripts";
 
 /**
@@ -23,6 +23,23 @@ async function loadTodos(req) {
   };
 
   return await GET(parseNumber(pag), filt);
+}
+
+/**
+ * POST endpoint
+ * @param {import("react-router-dom").LoaderFunctionArgs} req
+ * @returns
+ */
+async function createTodo(req) {
+  const data = await req.request.formData();
+
+  const resp = await POST(
+    data.get("text"),
+    data.get("priority"),
+    data.get("due_date")
+  );
+  console.log(resp);
+  return null;
 }
 
 /** @type {import("./utils/SimulateBack").ToDo[]} */
@@ -50,7 +67,7 @@ function App() {
               {
                 path: "/todos",
                 loader: loadTodos,
-                action: undefined,
+                action: createTodo,
                 element: <TodosScreen />,
                 children: [
                   {

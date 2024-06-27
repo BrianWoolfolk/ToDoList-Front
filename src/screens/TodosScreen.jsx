@@ -2,6 +2,7 @@ import { Outlet, useLoaderData, useLocation, useNavigate } from "react-router";
 import { intoInputDate } from "../scripts/scripts";
 import SearchControls from "../components/SearchControls";
 import { Link } from "react-router-dom";
+import TodoModal from "../components/TodoModal";
 
 const TodosScreen = () => {
   /** @type {import("../utils/SimulateBack").ToDo[]} */
@@ -21,7 +22,7 @@ const TodosScreen = () => {
 
       <SearchControls />
 
-      {/* <CreateButton /> */}
+      <TodoModal />
 
       <table>
         <thead>
