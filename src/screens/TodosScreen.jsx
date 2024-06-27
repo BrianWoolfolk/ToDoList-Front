@@ -1,19 +1,26 @@
-import { Outlet, useLoaderData, useLocation, useNavigate } from "react-router";
-import { intoInputDate } from "../scripts/scripts";
+import { Outlet, useLoaderData } from "react-router";
 import SearchControls from "../components/SearchControls";
-import { Link } from "react-router-dom";
 import TodoModal from "../components/TodoModal";
+import ShowTable from "../components/ShowTable";
+import { useState } from "react";
+import { useRefresh } from "../scripts/scripts";
 
 const TodosScreen = () => {
   /** @type {import("../utils/SimulateBack").ToDo[]} */
   const { data, page, maxpage } = useLoaderData();
-  const navigate = useNavigate();
-  const location = useLocation();
+  const [editToDo, setEditToDo] = useState(null);
+  const [refresh, volkey] = useRefresh();
 
-  function r(p) {
-    const s = new URLSearchParams(location.search);
-    s.set("pag", p);
-    return () => navigate(`${location.pathname}?${s}`);
+  function handleEdit(todo) {
+    setEditToDo({ ...todo });
+    refresh();
+  }
+
+  const handleDelete = (todo) => console.log(todo);
+
+  function handleCloseModal() {
+    setEditToDo(null);
+    refresh();
   }
 
   return (
@@ -22,59 +29,15 @@ const TodosScreen = () => {
 
       <SearchControls />
 
-      <TodoModal />
+      <TodoModal edit={editToDo} key={volkey} onClose={handleCloseModal} />
 
-      <table>
-        <thead>
-          <tr>
-            <th>Done</th>
-            <th>Name</th>
-            <th>Priority</th>
-            <th>Due Date</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.map((item, index) => {
-            return (
-              <tr key={index}>
-                <td>{item.done ? "YES" : "NO"}</td>
-                <td>{item.text}</td>
-                <td>{item.priority}</td>
-                <td>{item.due_date ? intoInputDate(item.due_date) : "-"}</td>
-                <td>
-                  <Link to={"/todos/" + item.id}>Edit</Link> / Delete
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-
-      <hr />
-      <div>
-        <button onClick={r(1)}>⇤</button>
-
-        {page - 1 >= 1 && (
-          <>
-            <button onClick={r(page - 1)}>◀︎</button>
-            {page - 1 > 1 && "..."}
-            <button onClick={r(page - 1)}>{page - 1}</button>
-          </>
-        )}
-
-        <b>{page}</b>
-
-        {page + 1 <= maxpage && (
-          <>
-            <button onClick={r(page + 1)}>{page + 1}</button>
-            {page + 1 < maxpage && "..."}
-            <button onClick={r(page + 1)}>▶︎</button>
-          </>
-        )}
-
-        <button onClick={r(maxpage)}>⇥</button>
-      </div>
+      <ShowTable
+        data={data}
+        page={page}
+        maxpage={maxpage}
+        onEdit={handleEdit}
+        onDelete={handleDelete}
+      />
 
       <h3>
         page {page} of {maxpage}

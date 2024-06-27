@@ -1,10 +1,14 @@
 import { useState } from "react";
 import { useSubmit } from "react-router-dom";
 import Input from "./Input";
+import { useRefresh } from "../scripts/scripts";
 
-const TodoModal = () => {
-  /** @type {import("../utils/SimulateBack").ToDo} */
-  const [LS, setLS] = useState({
+/**
+ *
+ * @returns {import("../utils/SimulateBack").ToDo}
+ */
+function newToDo() {
+  return {
     id: -1,
     text: "",
     due_date: null,
@@ -12,25 +16,34 @@ const TodoModal = () => {
     done_date: null,
     priority: "low",
     creation_date: new Date(),
-  });
+  };
+}
 
+/**
+ *
+ * @param {{
+ * edit: import("../utils/SimulateBack").ToDo?,
+ * onClose: () => void}} props
+ * @returns
+ */
+const TodoModal = (props) => {
+  const [LS, setLS] = useState(props.edit || newToDo());
+  const [refresh, volkey] = useRefresh();
   const submit = useSubmit();
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(!!props.edit);
 
-  function handleClick() {
-    setLS({
-      id: -1,
-      text: "",
-      due_date: null,
-      done: false,
-      done_date: null,
-      priority: "low",
-      creation_date: new Date(),
-    });
+  function handleCreate() {
+    setLS(newToDo());
     setOpen(true);
+    refresh();
   }
 
-  const handleCancel = () => setOpen(false);
+  function handleCancel() {
+    setLS({});
+    setOpen(false);
+
+    if (props.edit) props.onClose?.();
+  }
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -41,15 +54,19 @@ const TodoModal = () => {
     data.append("priority", LS.priority);
     data.append("id", LS.id);
 
-    submit(data, { method: "POST" });
+    submit(data, { method: props.edit ? "PUT" : "POST" });
   }
 
   return (
     <>
-      <button onClick={handleClick}>+ New To Do</button>
+      {
+        <button disabled={props.edit} onClick={handleCreate}>
+          + New To Do
+        </button>
+      }
 
       {open && (
-        <form onSubmit={handleSubmit} noValidate={false}>
+        <form onSubmit={handleSubmit} key={volkey}>
           <Input
             _store={LS}
             _store_var={"text"}

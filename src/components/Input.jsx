@@ -46,7 +46,6 @@ const Input = (props) => {
 
       if (props._type === "date") {
         const dd = val ? fromInputDate(val) : null;
-        console.log(dd, val);
         // bypass 'before today' check
         valid("", el);
         setLS(dd || "");

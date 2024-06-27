@@ -3,8 +3,9 @@ import "./theme/styles.css";
 import HomeScreen from "./screens/HomeScreen";
 import NotFoundScreen from "./screens/NotFoundScreen";
 import TodosScreen from "./screens/TodosScreen";
-import { GET, POST, randomTodo } from "./utils/SimulateBack";
+import { GET, GETID, POST, PUT, randomTodo } from "./utils/SimulateBack";
 import { parseNumber } from "./scripts/scripts";
+import TodoModal from "./components/TodoModal";
 
 /**
  * GET endpoint
@@ -30,15 +31,46 @@ async function loadTodos(req) {
  * @param {import("react-router-dom").LoaderFunctionArgs} req
  * @returns
  */
+async function loadTodoByID(req) {
+  const data = await loadTodos(req);
+
+  const { id } = req.params;
+  const single = await GETID(id);
+
+  if (!single)
+    throw new Response("Not Found", {
+      status: 404,
+      statusText: "To Do element not found",
+    });
+
+  return { ...data, single };
+}
+
+/**
+ * POST endpoint
+ * @param {import("react-router-dom").LoaderFunctionArgs} req
+ * @returns
+ */
 async function createTodo(req) {
   const data = await req.request.formData();
 
-  const resp = await POST(
-    data.get("text"),
-    data.get("priority"),
-    data.get("due_date")
-  );
-  console.log(resp);
+  const id = data.get("id");
+  const text = data.get("text");
+  const priority = data.get("priority");
+  const due_date = data.get("due_date");
+
+  let response = false;
+  if (req.request.method === "POST") {
+    response = await POST(text, priority, due_date);
+  } else if (req.request.method === "PUT") {
+    response = await PUT(id, text, priority, due_date);
+  }
+
+  if (!response)
+    throw new Response("Bad Request", {
+      status: 402,
+      statusText: "Missing or invalud fields passed",
+    });
   return null;
 }
 
@@ -72,9 +104,9 @@ function App() {
                 children: [
                   {
                     path: ":id",
-                    loader: undefined,
+                    loader: loadTodoByID,
                     action: undefined,
-                    element: <>with id</>,
+                    element: <TodoModal edit />,
                   },
                   {
                     path: ":id/:status",

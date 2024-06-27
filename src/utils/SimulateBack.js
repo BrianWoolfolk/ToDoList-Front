@@ -2,6 +2,7 @@ import { DB } from "../App";
 import {
   boundaries,
   fromInputDate,
+  parseNumber,
   randomDate,
   randomRange,
 } from "../scripts/scripts";
@@ -72,6 +73,19 @@ export async function GET(
 }
 
 /**
+ *
+ * @param {number} id
+ * @returns
+ */
+export async function GETID(id) {
+  if (id === undefined) return false;
+  id = parseNumber(id);
+  const itm = DB.find((v) => v.id === id);
+
+  return itm;
+}
+
+/**
  * Creates new ToDo
  * @param {string} text
  * @param {string} priority
@@ -101,8 +115,15 @@ export async function POST(text, priority, due_date) {
  * @param {ToDo} todo
  * @returns Success or Failure status
  */
-export async function PUT(todo) {
-  DB[0] = { ...todo };
+export async function PUT(id, text, priority, due_date) {
+  if (id === undefined) return false;
+  if (!["low", "medium", "high"].includes(priority)) return false;
+  if (!text) return false;
+
+  id = parseNumber(id);
+  const index = DB.findIndex((todo) => todo.id === id);
+
+  DB[index] = { ...DB[index], text, priority, due_date };
   return true;
 }
 
