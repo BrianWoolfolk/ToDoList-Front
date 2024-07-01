@@ -3,9 +3,10 @@ import "./theme/styles.css";
 import HomeScreen from "./screens/HomeScreen";
 import NotFoundScreen from "./screens/NotFoundScreen";
 import TodosScreen from "./screens/TodosScreen";
-import { GET, GETID, POST, PUT, randomTodo } from "./utils/SimulateBack";
-import { parseNumber } from "./scripts/scripts";
-import TodoModal from "./components/TodoModal";
+import RandomAdd from "./components/RandomAdd";
+import { fromInputDate, intoInputDate } from "./scripts/scripts";
+
+const LOCALHOST = "http://localhost:8080";
 
 /**
  * GET endpoint
@@ -15,43 +16,21 @@ import TodoModal from "./components/TodoModal";
 async function loadTodos(req) {
   const url = new URL(req.request.url);
 
-  const pag = url.searchParams.get("pag") ?? 1;
-  const done = url.searchParams.get("done");
-  const filt = {
-    text: url.searchParams.get("text") || null,
-    done: done === "false" ? false : done === "true" ? true : null,
-    priority: url.searchParams.get("priority") || null,
-  };
+  const ff = await fetch(`${LOCALHOST}/todos${url.search}`).catch((data) => {
+    console.warn(data);
+    return null;
+  });
+  if (!ff) throw new Response("Bad request", { status: 400 });
 
-  return await GET(parseNumber(pag), filt);
+  return await ff.json();
 }
 
 /**
- * POST endpoint
+ * POST & PUT endpoint
  * @param {import("react-router-dom").LoaderFunctionArgs} req
  * @returns
  */
-async function loadTodoByID(req) {
-  const data = await loadTodos(req);
-
-  const { id } = req.params;
-  const single = await GETID(id);
-
-  if (!single)
-    throw new Response("Not Found", {
-      status: 404,
-      statusText: "To Do element not found",
-    });
-
-  return { ...data, single };
-}
-
-/**
- * POST endpoint
- * @param {import("react-router-dom").LoaderFunctionArgs} req
- * @returns
- */
-async function createTodo(req) {
+async function editTodo(req) {
   const data = await req.request.formData();
 
   const id = data.get("id");
@@ -59,23 +38,50 @@ async function createTodo(req) {
   const priority = data.get("priority");
   const due_date = data.get("due_date");
 
-  let response = false;
+  const myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+
+  const raw = JSON.stringify({
+    text: text ? text.toString() : undefined,
+    priority: priority ? priority.toString().toUpperCase() : undefined,
+    due_date: due_date
+      ? fromInputDate(intoInputDate(due_date)).toISOString()
+      : req.request.method === "PUT"
+      ? "none"
+      : undefined,
+  });
+
+  const requestOptions = {
+    method: req.request.method,
+    headers: myHeaders,
+    body: raw,
+    redirect: "follow",
+  };
+
+  let response = null;
   if (req.request.method === "POST") {
-    response = await POST(text, priority, due_date);
+    // LAST CHECK
+    if (!text || !priority)
+      throw new Response("Missing fields", { status: 400 });
+
+    response = await fetch(`${LOCALHOST}/todos`, requestOptions);
   } else if (req.request.method === "PUT") {
-    response = await PUT(id, text, priority, due_date);
+    response = await fetch(`${LOCALHOST}/todos/${id}`, requestOptions);
   }
 
-  if (!response)
+  if (!response.ok) {
+    console.warn(response);
     throw new Response("Bad Request", {
       status: 402,
-      statusText: "Missing or invalud fields passed",
+      statusText: "Missing or invalid fields passed",
     });
+  }
+
   return null;
 }
 
 /** @type {import("./utils/SimulateBack").ToDo[]} */
-export const DB = randomTodo(45);
+export const DB = [];
 
 function App() {
   return (
@@ -93,21 +99,16 @@ function App() {
                   <div>
                     <h2>Template screen</h2>
                     <Link to={"/todos"}>Go to app</Link>
+                    <RandomAdd />
                   </div>
                 ),
               },
               {
                 path: "/todos",
                 loader: loadTodos,
-                action: createTodo,
+                action: editTodo,
                 element: <TodosScreen />,
                 children: [
-                  {
-                    path: ":id",
-                    loader: loadTodoByID,
-                    action: undefined,
-                    element: <TodoModal edit />,
-                  },
                   {
                     path: ":id/:status",
                     loader: undefined,

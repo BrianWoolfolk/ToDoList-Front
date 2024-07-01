@@ -90,7 +90,9 @@ const Input = (props) => {
         className={"input"}
         name={props._store_var}
         disabled={props._disabled}
-        value={LS instanceof Date ? intoInputDate(LS) : LS}
+        value={
+          LS instanceof Date || props._type === "date" ? intoInputDate(LS) : LS
+        }
         checked={LS}
         required={props._required}
         placeholder={

@@ -50,7 +50,12 @@ const TodoModal = (props) => {
 
     const data = new FormData();
     data.append("text", LS.text);
-    data.append("due_date", LS.due_date?.toISOString() || "");
+    data.append(
+      "due_date",
+      LS.due_date instanceof Date
+        ? LS.due_date.toISOString()
+        : LS.due_date || ""
+    );
     data.append("priority", LS.priority);
     data.append("id", LS.id);
 
@@ -83,7 +88,7 @@ const TodoModal = (props) => {
           <Input
             _store={LS}
             _store_var={"priority"}
-            _select_from={["low", "medium", "high"]}
+            _select_from={["LOW", "MEDIUM", "HIGH"]}
             _required
             _label={"Priority"}
           />

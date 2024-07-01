@@ -6,8 +6,8 @@ const SearchControls = () => {
   const navigate = useNavigate();
 
   const [text, setText] = useState("");
-  const [priority, setPriority] = useState(null);
-  const [done, setDone] = useState(null);
+  const [priority, setPriority] = useState("");
+  const [done, setDone] = useState("");
 
   const handleText = (e) => setText(e.target.value);
   const handlePriority = (e) => setPriority(e.target.value);
@@ -27,16 +27,16 @@ const SearchControls = () => {
       <label htmlFor="priority">Priority</label>
       <select name="priority" id="priority" onChange={handlePriority}>
         <option value={""}>All</option>
-        <option value={"high"}>High</option>
-        <option value={"medium"}>Medium</option>
-        <option value={"low"}>Low</option>
+        <option value={"HIGH"}>High</option>
+        <option value={"MEDIUM"}>Medium</option>
+        <option value={"LOW"}>Low</option>
       </select>
 
       <label htmlFor="done">State</label>
       <select name="done" id="done" onChange={handleState}>
         <option value={""}>All</option>
-        <option value={true}>Done</option>
-        <option value={false}>Undone</option>
+        <option value={"true"}>Done</option>
+        <option value={"false"}>Undone</option>
       </select>
 
       <button onClick={handleSearch}>Search</button>
