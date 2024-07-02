@@ -135,7 +135,13 @@ export function fitString(
 export function clockLike(minutes) {
   minutes = parseNumber(minutes);
   const hrs = Math.floor(minutes / 60);
-  return `${hrs}`.padStart(2, "0") + ":" + `${minutes % 60}`.padStart(2, "0");
+  let str = "";
+
+  if (hrs >= 60) str += `${Math.floor(hrs / 60)} day(s) `;
+  str += `${hrs % 60}`.padStart(2, "0") + ":";
+  str += `${minutes % 60}`.padStart(2, "0");
+
+  return str;
 }
 // #endregion
 
