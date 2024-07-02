@@ -125,6 +125,18 @@ export function fitString(
 
   return result;
 }
+
+// ---------------------------------------------------------------------- CLOCK LIKE
+/**
+ * Takes any number of minutes and converts it into hours:minutes.
+ * @param {number} minutes Total minutes to parse
+ * @returns {string} A string format like "hh:mm"
+ */
+export function clockLike(minutes) {
+  minutes = parseNumber(minutes);
+  const hrs = Math.floor(minutes / 60);
+  return `${hrs}`.padStart(2, "0") + ":" + `${minutes % 60}`.padStart(2, "0");
+}
 // #endregion
 
 // #region ##################################################################################### PARSERS

@@ -1,3 +1,5 @@
+import { clockLike } from "../scripts/scripts";
+
 /**
  *
  * @param {{
@@ -14,20 +16,21 @@
  * }} props
  */
 const ShowMetrics = (props) => {
-  console.log(props);
-
   if (!props.metrics) return <h2>There aren't metrics to show!</h2>;
 
   return (
     <div className="show-metrics">
-      <div>Average time to finish tasks: {props.metrics.total_pend}</div>
+      <div>
+        Average time to finish tasks (filters considered):{" "}
+        {clockLike(props.metrics.total_pend)}
+      </div>
 
       <div>
         Average time to finish tasks by priority:
         <ul>
-          <li>Low: {props.metrics.low_pend}</li>
-          <li>Medium: {props.metrics.mid_pend}</li>
-          <li>High: {props.metrics.high_pend}</li>
+          <li>Low: {clockLike(props.metrics.low_pend)}</li>
+          <li>Medium: {clockLike(props.metrics.mid_pend)}</li>
+          <li>High: {clockLike(props.metrics.high_pend)}</li>
         </ul>
       </div>
     </div>
