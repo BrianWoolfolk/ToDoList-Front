@@ -72,8 +72,37 @@ async function editTodo(req) {
   if (!response.ok) {
     console.warn(response);
     throw new Response("Bad Request", {
-      status: 402,
+      status: 400,
       statusText: "Missing or invalid fields passed",
+    });
+  }
+
+  return null;
+}
+
+/**
+ * POST & PUT endpoint
+ * @param {import("react-router-dom").LoaderFunctionArgs} req
+ * @returns
+ */
+async function toggleDone(req) {
+  const { id, status } = req.params;
+
+  const requestOptions = {
+    method: req.request.method,
+    redirect: "follow",
+  };
+
+  const response = await fetch(
+    `${LOCALHOST}/todos/${id}/${status}`,
+    requestOptions
+  );
+
+  if (!response.ok) {
+    console.warn(response);
+    throw new Response("Bad Request", {
+      status: 400,
+      statusText: "Bad status and/or method",
     });
   }
 
@@ -112,8 +141,8 @@ function App() {
                   {
                     path: ":id/:status",
                     loader: undefined,
-                    action: undefined,
-                    element: <>and status</>,
+                    action: toggleDone,
+                    element: <></>,
                   },
                 ],
               },

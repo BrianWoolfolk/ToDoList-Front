@@ -1,5 +1,6 @@
 import { useLocation, useNavigate } from "react-router";
 import { intoInputDate } from "../scripts/scripts";
+import { useFetcher } from "react-router-dom";
 
 /**
  *
@@ -14,6 +15,8 @@ import { intoInputDate } from "../scripts/scripts";
 const ShowTable = (props) => {
   const navigate = useNavigate();
   const location = useLocation();
+  const fetcher = useFetcher();
+
   function r(p) {
     const s = new URLSearchParams(location.search);
     s.set("pag", p);
@@ -37,7 +40,25 @@ const ShowTable = (props) => {
             props.data.map((item, index) => {
               return (
                 <tr key={index}>
-                  <td>{item.done ? "YES" : "NO"}</td>
+                  <td>
+                    <input
+                      type={"checkbox"}
+                      checked={item.done}
+                      disabled={fetcher.state !== "idle"}
+                      onChange={() => {
+                        if (fetcher.state !== "idle") return;
+
+                        fetcher.submit(null, {
+                          action:
+                            "/todos/" +
+                            item.id +
+                            (item.done ? "/undone" : "/done"),
+                          method: item.done ? "PUT" : "POST",
+                        });
+                      }}
+                    />
+                  </td>
+
                   <td>{item.text}</td>
                   <td>{item.priority}</td>
                   <td>{item.due_date ? intoInputDate(item.due_date) : "-"}</td>
