@@ -4,10 +4,11 @@ import TodoModal from "../components/TodoModal";
 import ShowTable from "../components/ShowTable";
 import { useState } from "react";
 import { useRefresh } from "../scripts/scripts";
+import ShowMetrics from "../components/ShowMetrics";
 
 const TodosScreen = () => {
   /** @type {import("../utils/SimulateBack").ToDo[]} */
-  const { data, page, maxpage } = useLoaderData();
+  const { data, page, maxpage, lastMetrics } = useLoaderData();
   const [editToDo, setEditToDo] = useState(null);
   const [refresh, volkey] = useRefresh();
 
@@ -45,7 +46,7 @@ const TodosScreen = () => {
 
       <Outlet />
 
-      {/* <ShowMetrics /> */}
+      <ShowMetrics metrics={lastMetrics} />
     </>
   );
 };

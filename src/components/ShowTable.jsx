@@ -33,20 +33,28 @@ const ShowTable = (props) => {
           </tr>
         </thead>
         <tbody>
-          {props.data.map((item, index) => {
-            return (
-              <tr key={index}>
-                <td>{item.done ? "YES" : "NO"}</td>
-                <td>{item.text}</td>
-                <td>{item.priority}</td>
-                <td>{item.due_date ? intoInputDate(item.due_date) : "-"}</td>
-                <td>
-                  <button onClick={() => props.onEdit?.(item)}>Edit</button>/
-                  <button onClick={() => props.onDelete?.(item)}>Delete</button>
-                </td>
-              </tr>
-            );
-          })}
+          {props.data && props.data.length ? (
+            props.data.map((item, index) => {
+              return (
+                <tr key={index}>
+                  <td>{item.done ? "YES" : "NO"}</td>
+                  <td>{item.text}</td>
+                  <td>{item.priority}</td>
+                  <td>{item.due_date ? intoInputDate(item.due_date) : "-"}</td>
+                  <td>
+                    <button onClick={() => props.onEdit?.(item)}>Edit</button>/
+                    <button onClick={() => props.onDelete?.(item)}>
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              );
+            })
+          ) : (
+            <tr>
+              <td>Empty!</td>
+            </tr>
+          )}
         </tbody>
       </table>
 
