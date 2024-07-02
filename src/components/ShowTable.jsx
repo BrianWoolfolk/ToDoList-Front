@@ -1,6 +1,10 @@
 import { useLocation, useNavigate } from "react-router";
 import { intoInputDate } from "../scripts/scripts";
 import { useFetcher } from "react-router-dom";
+import { useState } from "react";
+
+/** SHORTCUT */
+const NEXT = { true: false, false: null, null: true };
 
 /**
  *
@@ -16,11 +20,27 @@ const ShowTable = (props) => {
   const navigate = useNavigate();
   const location = useLocation();
   const fetcher = useFetcher();
+  const [sortPriority, setSortPriority] = useState(null);
+  const [sortDueDate, setSortDueDate] = useState(null);
 
   function r(p) {
     const s = new URLSearchParams(location.search);
     s.set("pag", p);
     return () => navigate(`${location.pathname}?${s}`);
+  }
+
+  function applyFilters(is_prior) {
+    const prio = is_prior ? NEXT[sortPriority] : sortPriority;
+    const duedat = !is_prior ? NEXT[sortDueDate] : sortDueDate;
+
+    const s = new URLSearchParams(location.search);
+    s.set("sortPriority", prio ?? "");
+    s.set("sortDueDate", duedat ?? "");
+
+    setSortPriority(prio);
+    setSortDueDate(duedat);
+
+    navigate(`${location.pathname}?${s}`);
   }
 
   return (
@@ -30,8 +50,18 @@ const ShowTable = (props) => {
           <tr>
             <th>Done</th>
             <th>Name</th>
-            <th>Priority</th>
-            <th>Due Date</th>
+            <th>
+              {"Priority "}
+              <button onClick={() => applyFilters(true)}>
+                {sortPriority === null ? "◉" : sortPriority ? "▼" : "▲"}
+              </button>
+            </th>
+            <th>
+              {"Due Date "}
+              <button onClick={() => applyFilters(false)}>
+                {sortDueDate === null ? "◉" : sortDueDate ? "▼" : "▲"}
+              </button>
+            </th>
             <th>Actions</th>
           </tr>
         </thead>
