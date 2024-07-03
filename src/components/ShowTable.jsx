@@ -45,10 +45,17 @@ const ShowTable = (props) => {
 
   return (
     <>
-      <table>
+      <table className="show-table">
+        <colgroup>
+          <col style={{ width: "1%" }} />
+          <col style={{ width: "20%" }} />
+          <col style={{ width: "20%" }} />
+          <col style={{ width: "1%" }} />
+          <col style={{ width: "1%" }} />
+        </colgroup>
         <thead>
           <tr>
-            <th>Done</th>
+            <th>✅</th>
             <th>Name</th>
             <th>
               {"Priority "}
@@ -109,8 +116,7 @@ const ShowTable = (props) => {
         </tbody>
       </table>
 
-      <hr />
-      <div>
+      <div className="pagination">
         <button onClick={r(1)}>⇤</button>
 
         {props.page - 1 >= 1 && (

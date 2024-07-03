@@ -61,7 +61,9 @@ const SearchControls = () => {
       </select>
 
       <button onClick={() => handleSearch()}>Search</button>
-      <button onClick={() => handleSearch("", "", "")}>Reset Search</button>
+      <button className="reset-button" onClick={() => handleSearch("", "", "")}>
+        Reset Search
+      </button>
     </div>
   );
 };

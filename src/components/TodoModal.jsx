@@ -80,7 +80,11 @@ const TodoModal = (props) => {
 
   return (
     <>
-      <button disabled={props.edit || open || loading} onClick={handleCreate}>
+      <button
+        className="todo-button"
+        disabled={props.edit || open || loading}
+        onClick={handleCreate}
+      >
         {loading ? "Loading..." : "+ New To Do"}
       </button>
 

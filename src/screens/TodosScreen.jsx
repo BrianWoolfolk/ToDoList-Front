@@ -1,4 +1,4 @@
-import { Outlet, useLoaderData } from "react-router";
+import { useLoaderData } from "react-router";
 import SearchControls from "../components/SearchControls";
 import TodoModal from "../components/TodoModal";
 import ShowTable from "../components/ShowTable";
@@ -26,25 +26,21 @@ const TodosScreen = () => {
 
   return (
     <>
-      <h1>TODOS SCREEN</h1>
+      <div className="screen">
+        <h1>TODOS SCREEN</h1>
 
-      <SearchControls />
+        <SearchControls />
 
-      <TodoModal edit={editToDo} key={volkey} onClose={handleCloseModal} />
+        <TodoModal edit={editToDo} key={volkey} onClose={handleCloseModal} />
 
-      <ShowTable
-        data={data}
-        page={page}
-        maxpage={maxpage}
-        onEdit={handleEdit}
-        onDelete={handleDelete}
-      />
-
-      <h3>
-        page {page} of {maxpage}
-      </h3>
-
-      <Outlet />
+        <ShowTable
+          data={data}
+          page={page}
+          maxpage={maxpage}
+          onEdit={handleEdit}
+          onDelete={handleDelete}
+        />
+      </div>
 
       <ShowMetrics metrics={lastMetrics} />
     </>

@@ -1,3 +1,12 @@
+/* #region ##################################################################################### VARIABLES */
+:root {
+  --color-black: #1d1d1d;
+  --color-background: #c3d5cd;
+}
+/* #endregion */
+
+/* #region ##################################################################################### RESETS */
+/* ---------------------------------------------------------------------- ALL */
 * {
   margin: 0;
   padding: 0;
@@ -5,10 +14,151 @@
   font-family: sans-serif;
 }
 
+/* ---------------------------------------------------------------------- RESET DOCUMENT */
+html,
+body,
+#root {
+  width: 100%;
+  min-height: 100svh;
+
+  color: var(--color-black);
+  font-family: sans-serif;
+  background-color: var(--color-background);
+
+  scroll-behavior: smooth;
+}
+
+/* ---------------------------------------------------------------------- ROOT ELEMENT */
+#root {
+  display: flex;
+  flex-direction: column;
+
+  background-color: var(--color-background);
+}
+/* #endregion */
+
+/* #region ##################################################################################### GENERAL COMPONENTS */
+/* ---------------------------------------------------------------------- SCREEN (VERTICAL FLEX) */
 .screen {
-  margin: 1.25rem;
+  margin: 0 1.25rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  gap: 0.85rem;
 
   > h1 {
     text-align: center;
   }
 }
+
+/* ---------------------------------------------------------------------- NAV */
+nav {
+  display: flex;
+  gap: 0.75rem;
+  padding: 0.3rem;
+  border-bottom: 2px solid black;
+
+  .active {
+    pointer-events: none;
+    cursor: not-allowed;
+    text-decoration: none;
+    opacity: 0.8;
+  }
+}
+/* #endregion */
+
+/* #region ##################################################################################### MAIN COMPONENTS */
+/* ---------------------------------------------------------------------- SEARCH CONTROLS */
+.search-controls {
+  border: 2px solid black;
+  padding: 0.5rem 1rem;
+  display: grid;
+  grid-template-columns: min-content max-content 1fr;
+  grid-template-rows: repeat(3, 50px);
+
+  > input[type="text"] {
+    grid-column: 2 / -1;
+  }
+
+  > label {
+    grid-column: 1;
+  }
+
+  .reset-button {
+    grid-row: 2;
+    grid-column: 3 / -1;
+  }
+}
+
+/* ---------------------------------------------------------------------- TODO MODAL */
+.todo-button {
+  align-self: flex-start;
+}
+
+/* ---------------------------------------------------------------------- SHOW TABLE */
+.show-table {
+  width: 100%;
+  border: 2px solid black;
+  border-collapse: collapse;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+
+  thead {
+    background-color: darkgray;
+    border: 2px solid black;
+  }
+
+  th {
+    padding: 0.3rem 0.5rem;
+    text-align: left;
+  }
+
+  col {
+    border: 2px solid black;
+  }
+
+  tr {
+    border: 1px solid black;
+  }
+
+  td {
+    padding: 0.3rem 0.5rem;
+    vertical-align: middle;
+  }
+}
+
+/* ---------------------------------------------------------------------- PAGINATION */
+.pagination {
+  border: 1px solid black;
+  margin: 2rem auto;
+  margin-top: auto;
+  width: max-content;
+  padding: 1.5rem 3rem;
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* ---------------------------------------------------------------------- METRICS */
+.show-metrics {
+  display: flex;
+  justify-content: space-evenly;
+  border: 2px solid black;
+  margin: 0.5rem 1.5rem;
+  padding: 0.5rem 1.5rem;
+
+  .metrics-block {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    .metrics-items {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+  }
+}
+/* #endregion */

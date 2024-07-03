@@ -114,47 +114,46 @@ export const DB = [];
 
 function App() {
   return (
-    <div className="App">
-      <RouterProvider
-        router={createBrowserRouter([
-          {
-            path: "/",
-            errorElement: <NotFoundScreen />,
-            element: <HomeScreen />,
-            children: [
-              {
-                index: true,
-                element: (
-                  <div>
-                    <h2>Template screen</h2>
-                    <Link to={"/todos"}>Go to app</Link>
-                    <RandomAdd />
-                  </div>
-                ),
-              },
-              {
-                path: "/todos",
-                loader: loadTodos,
-                action: editTodo,
-                element: <TodosScreen />,
-                children: [
-                  {
-                    path: ":id/:status",
-                    loader: undefined,
-                    action: toggleDone,
-                    element: <></>,
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            path: "*",
-            element: <NotFoundScreen />,
-          },
-        ])}
-      />
-    </div>
+    <RouterProvider
+      router={createBrowserRouter([
+        {
+          path: "/",
+          errorElement: <NotFoundScreen />,
+          element: <HomeScreen />,
+          children: [
+            {
+              index: true,
+              element: (
+                <div>
+                  <h2>Template screen</h2>
+                  <Link to={"/todos"}>Go to app</Link>
+                  <br />
+                  <RandomAdd />
+                </div>
+              ),
+            },
+            {
+              path: "/todos",
+              loader: loadTodos,
+              action: editTodo,
+              element: <TodosScreen />,
+              children: [
+                {
+                  path: ":id/:status",
+                  loader: undefined,
+                  action: toggleDone,
+                  element: <></>,
+                },
+              ],
+            },
+          ],
+        },
+        {
+          path: "*",
+          element: <NotFoundScreen />,
+        },
+      ])}
+    />
   );
 }
 

@@ -1,12 +1,16 @@
 import { Outlet } from "react-router";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 const HomeScreen = () => {
   return (
-    <div className="screen">
-      <Link to={"/"}>Go Home</Link>
+    <>
+      <nav>
+        <NavLink to={"/"}>Go Home</NavLink>
+        <NavLink to={"/todos"}>Go App</NavLink>
+      </nav>
+
       <Outlet />
-    </div>
+    </>
   );
 };
 
