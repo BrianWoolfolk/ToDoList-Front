@@ -89,39 +89,57 @@ const TodoModal = (props) => {
       </button>
 
       {open && (
-        <form onSubmit={handleSubmit} key={volkey}>
-          <Input
-            _store={LS}
-            _store_var={"text"}
-            _type={"text"}
-            _required
-            _label={"Text message"}
-            _disabled={loading}
-          />
-          <Input
-            _store={LS}
-            _store_var={"due_date"}
-            _type={"date"}
-            _label={"Due date (optional)"}
-            _disabled={loading}
-          />
-          <Input
-            _store={LS}
-            _store_var={"priority"}
-            _select_from={["LOW", "MEDIUM", "HIGH"]}
-            _required
-            _label={"Priority"}
-            _disabled={loading}
-          />
+        <div className="modal-container">
+          <div className="modal">
+            <div className="modal-title">
+              <h3>{props.edit ? "Edit" : "Create new"} To Do Item</h3>
 
-          <button disabled={loading}>
-            {loading ? "Loading..." : "Save Item"}
-          </button>
+              <button className="exit" onClick={handleCancel}>
+                ✕
+              </button>
+            </div>
 
-          <button type={"button"} disabled={loading} onClick={handleCancel}>
-            Cancel
-          </button>
-        </form>
+            <form onSubmit={handleSubmit} key={volkey}>
+              <Input
+                _store={LS}
+                _store_var={"text"}
+                _type={"text"}
+                _required
+                _label={"Text message"}
+                _disabled={loading}
+              />
+              <Input
+                _store={LS}
+                _store_var={"due_date"}
+                _type={"date"}
+                _label={"Due date (optional)"}
+                _disabled={loading}
+              />
+              <Input
+                _store={LS}
+                _store_var={"priority"}
+                _select_from={["LOW", "MEDIUM", "HIGH"]}
+                _required
+                _label={"Priority"}
+                _disabled={loading}
+              />
+
+              <div className="modal-controls">
+                <button disabled={loading}>
+                  {loading ? "Loading..." : "Save Item"}
+                </button>
+                <button
+                  className="back"
+                  type={"button"}
+                  disabled={loading}
+                  onClick={handleCancel}
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
       )}
     </>
   );
