@@ -13,7 +13,9 @@ const SearchControls = () => {
   const handlePriority = (e) => setPriority(e.target.value);
   const handleState = (e) => setDone(e.target.value);
 
-  function handleSearch(t = text, p = priority, d = done) {
+  function handleSearch(e, t = text, p = priority, d = done) {
+    e.preventDefault();
+
     const s = new URLSearchParams(location.search);
     s.set("text", t);
     s.set("priority", p);
@@ -30,7 +32,7 @@ const SearchControls = () => {
   }
 
   return (
-    <div className="search-controls">
+    <form className="search-controls" onSubmit={handleSearch}>
       <label htmlFor="name">Name</label>
       <input
         type="text"
@@ -60,11 +62,15 @@ const SearchControls = () => {
         <option value={"false"}>Undone</option>
       </select>
 
-      <button onClick={() => handleSearch()}>Search</button>
-      <button className="reset-button" onClick={() => handleSearch("", "", "")}>
+      <button>Search</button>
+      <button
+        className="reset-button"
+        type="button"
+        onClick={(e) => handleSearch(e, "", "", "")}
+      >
         Reset Search
       </button>
-    </div>
+    </form>
   );
 };
 
