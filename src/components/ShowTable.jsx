@@ -120,7 +120,16 @@ const ShowTable = (props) => {
                   <td>{item.due_date ? intoInputDate(item.due_date) : "-"}</td>
                   <td>
                     <button onClick={() => props.onEdit?.(item)}>Edit</button>/
-                    <button onClick={() => props.onDelete?.(item)}>
+                    <button
+                      onClick={() => {
+                        if (fetcher.state !== "idle") return;
+
+                        fetcher.submit(null, {
+                          action: `/todos/${item.id}/delete`,
+                          method: "DELETE",
+                        });
+                      }}
+                    >
                       Delete
                     </button>
                   </td>

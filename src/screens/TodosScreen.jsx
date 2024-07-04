@@ -17,7 +17,7 @@ const TodosScreen = () => {
     refresh();
   }
 
-  const handleDelete = (todo) => console.log(todo);
+  // const handleDelete = (todo) => console.log(todo);
 
   function handleCloseModal() {
     setEditToDo(null);
@@ -38,7 +38,7 @@ const TodosScreen = () => {
           page={page}
           maxpage={maxpage}
           onEdit={handleEdit}
-          onDelete={handleDelete}
+          // onDelete={handleDelete}
         />
       </div>
 
