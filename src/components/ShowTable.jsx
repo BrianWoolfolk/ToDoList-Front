@@ -50,7 +50,7 @@ const ShowTable = (props) => {
     const s = new URLSearchParams(location.search);
     const page = s.get("pag") || "1";
     fetcher.submit(null, {
-      action: `/todos/0/${markAs ? "done" : "undone"}?pag=${page}`,
+      action: `/todos/0/${markAs ? "done" : "undone"}?inPage=${page}`,
       method: markAs ? "POST" : "PUT",
     });
   }
