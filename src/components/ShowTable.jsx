@@ -43,6 +43,18 @@ const ShowTable = (props) => {
     navigate(`${location.pathname}?${s}`);
   }
 
+  function handleToggleAll(e) {
+    if (fetcher.state !== "idle") return;
+
+    const markAs = e.target.checked;
+    const s = new URLSearchParams(location.search);
+    const page = s.get("pag") || "1";
+    fetcher.submit(null, {
+      action: `/todos/0/${markAs ? "done" : "undone"}?pag=${page}`,
+      method: markAs ? "POST" : "PUT",
+    });
+  }
+
   return (
     <>
       <table className="show-table">
@@ -55,7 +67,14 @@ const ShowTable = (props) => {
         </colgroup>
         <thead>
           <tr>
-            <th>✅</th>
+            <th>
+              <input
+                type="checkbox"
+                checked={props.data?.every((item) => item.done)}
+                disabled={fetcher.state !== "idle"}
+                onChange={handleToggleAll}
+              />
+            </th>
             <th>Name</th>
             <th>
               {"Priority "}

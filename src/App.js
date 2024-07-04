@@ -87,6 +87,7 @@ async function editTodo(req) {
  */
 async function toggleDone(req) {
   const { id, status } = req.params;
+  const s = new URL(req.request.url).search;
 
   const requestOptions = {
     method: req.request.method,
@@ -94,7 +95,7 @@ async function toggleDone(req) {
   };
 
   const response = await fetch(
-    `${LOCALHOST}/todos/${id}/${status}`,
+    `${LOCALHOST}/todos/${id}/${status}${s}`,
     requestOptions
   );
 
