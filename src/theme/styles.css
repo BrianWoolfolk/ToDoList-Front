@@ -2,19 +2,21 @@
 :root {
   --color-black: #425e4c;
   --color-white: #f1fbf3;
-  --color-background: #c3d5cd;
-  --color-accent: #117b45;
-  /* --color-accent: #c55000; */
-  --color-secondary: #b1c381;
-  --color-danger: #ee8459;
+
+  --color-accent: #779c15;
+  --color-secondary: #ee8459;
+  --color-danger: #c55000;
+
   --color-bg-secondary: #9bb8cd;
   --color-bg-ternary: #fff7d4;
-  --color-golden: #eec759;
-  --color-green: #b1c381;
-  --color-dark-green: #88ab8e;
-  --color-darker-green: #638889;
   --color-bg-clear: #f9efdb;
+  --color-golden: #eec759;
 
+  --color-lime: #b1c381;
+  --color-green: #88ab8e;
+  --color-dark-green: #638889;
+
+  --bg-green-00: #c3d5cd;
   --bg-green-01: #e4edcb;
   --bg-green-02: #d0ddad;
   --bg-green-03: #81ae89;
@@ -49,7 +51,7 @@ body,
 
   color: var(--color-black);
   font-family: sans-serif;
-  background-color: var(--color-background);
+  background-color: var(--bg-green-00);
 
   scroll-behavior: smooth;
 }
@@ -59,7 +61,7 @@ body,
   display: flex;
   flex-direction: column;
 
-  background-color: var(--color-background);
+  background-color: var(--bg-green-00);
 }
 /* #endregion */
 
@@ -74,7 +76,7 @@ body,
 
 h1,
 .title {
-  margin: 0.5rem 0;
+  margin: 1rem 0;
   text-align: center;
 }
 
@@ -83,7 +85,7 @@ nav {
   display: flex;
   gap: 1.5rem;
   padding: 0.3rem;
-  border-bottom: 2px solid var(--color-black);
+  border-bottom: 3px solid var(--color-dark-green);
   background-color: var(--bg-green-03);
   height: 3rem;
   align-items: center;
@@ -95,11 +97,6 @@ nav {
     text-decoration: none;
     opacity: 0.8;
   }
-}
-
-/* ---------------------------------------------------------------------- FORM */
-form {
-  margin: 1.75rem 2.5rem;
 }
 
 /* ---------------------------------------------------------------------- LABELS */
@@ -161,7 +158,7 @@ select,
     }
 
     &:checked {
-      background-color: var(--color-green);
+      background-color: var(--color-lime);
 
       &::after {
         content: "✔️";
@@ -188,9 +185,9 @@ select,
   &:focus,
   &:focus-visible,
   &:focus-within {
-    color: var(--color-secondary);
-    border: 2px solid var(--color-secondary);
-    box-shadow: 0 0 0px 2px var(--color-secondary);
+    color: var(--color-accent);
+    border: 2px solid var(--color-accent);
+    box-shadow: 0 0 0px 2px var(--color-accent);
   }
 }
 
@@ -217,7 +214,7 @@ button,
   &:hover {
     cursor: pointer;
     text-decoration: none;
-    opacity: 0.7;
+    outline: 2px solid;
   }
 
   /* -------------------------------------------------- ACTIVE */
@@ -237,18 +234,31 @@ button,
 /* #region ##################################################################################### MAIN COMPONENTS */
 /* ---------------------------------------------------------------------- SEARCH CONTROLS */
 .search-controls {
-  border: 2px solid var(--color-black);
+  border: 3px solid var(--color-black);
   padding: 0.5rem 1rem;
+  margin: 1.25rem 0;
   display: grid;
-  grid-template-columns: min-content max-content 1fr;
-  grid-template-rows: repeat(3, 50px);
+  grid-template-columns: 1fr 6fr 3fr;
+  grid-template-rows: repeat(3, 2.75rem);
+  align-items: center;
+  gap: 0.5rem;
+  background-color: var(--bg-green-02);
 
   > input[type="text"] {
     grid-column: 2 / -1;
   }
 
+  > select {
+    width: 33%;
+  }
+
   > label {
     grid-column: 1;
+  }
+
+  > button {
+    margin: 0;
+    height: 90%;
   }
 
   .reset-button {
@@ -258,10 +268,6 @@ button,
 }
 
 /* ---------------------------------------------------------------------- TODO MODAL */
-.todo-button {
-  align-self: flex-start;
-}
-
 .modal-container {
   position: fixed;
   width: 100%;
@@ -346,6 +352,7 @@ button,
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
+  margin: 1.25rem 0;
 
   thead {
     background-color: var(--bg-green-03);
@@ -376,7 +383,7 @@ button,
   }
 
   col:not(:last-child) {
-    border-right: 2px solid var(--color-dark-green);
+    border-right: 2px solid var(--color-green);
   }
 
   td {
