@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { randomDate, randomRange } from "../scripts/scripts";
+import { LOCALHOST } from "../App";
 
 const RandomAdd = () => {
   const size = 45;
@@ -14,10 +15,19 @@ const RandomAdd = () => {
       const myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
 
+      const yesterday = new Date();
+      yesterday.setDate(yesterday.getDate() - 1);
+
+      const nextMonth = new Date();
+      nextMonth.setMonth(nextMonth.getMonth() + 1);
+
       const raw = JSON.stringify({
         text: "Texto de ejemplo " + i,
         priority: p[randomRange(0, 2)],
-        due_date: Math.random() > 0.5 ? randomDate().toISOString() : null,
+        due_date:
+          Math.random() > 0.5
+            ? randomDate(yesterday, nextMonth).toISOString()
+            : null,
       });
 
       const requestOptions = {
@@ -27,15 +37,9 @@ const RandomAdd = () => {
         redirect: "follow",
       };
 
-      const response = await fetch(
-        "http://localhost:8080/todos",
-        requestOptions
-      );
-      const result = await response.text();
-      console.log(result);
+      const response = await fetch(LOCALHOST + "/todos", requestOptions);
 
-      if (response.ok) console.log("success");
-      else console.log("error:", i, response);
+      if (!response.ok) console.error("error:", i, response);
     }
 
     setLoading(false);
@@ -49,7 +53,7 @@ const RandomAdd = () => {
         handleClick();
       }}
     >
-      RANDOM ADD
+      {loading ? "Sending..." : "Random Add (45)"}
     </button>
   );
 };

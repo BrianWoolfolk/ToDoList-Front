@@ -1,12 +1,12 @@
-import { Link, RouterProvider, createBrowserRouter } from "react-router-dom";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import "./theme/styles.css";
 import HomeScreen from "./screens/HomeScreen";
 import NotFoundScreen from "./screens/NotFoundScreen";
 import TodosScreen from "./screens/TodosScreen";
-import RandomAdd from "./components/RandomAdd";
 import { fromInputDate, intoInputDate } from "./scripts/scripts";
+import LandingScreen from "./screens/LandingScreen";
 
-const LOCALHOST = "http://localhost:8080";
+export const LOCALHOST = "http://localhost:9090";
 
 /**
  * GET endpoint
@@ -124,14 +124,7 @@ function App() {
           children: [
             {
               index: true,
-              element: (
-                <div>
-                  <h2>Template screen</h2>
-                  <Link to={"/todos"}>Go to app</Link>
-                  <br />
-                  <RandomAdd />
-                </div>
-              ),
+              element: <LandingScreen />,
             },
             {
               path: "/todos",

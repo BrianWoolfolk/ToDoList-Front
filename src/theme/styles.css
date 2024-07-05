@@ -85,15 +85,33 @@ nav {
     cursor: not-allowed;
     text-decoration: none;
     opacity: 0.8;
+    border-bottom: 2px solid;
+    color: var(--color-white);
   }
 }
 
 /* ---------------------------------------------------------------------- ANCHOR TAGS */
-a {
+a,
+.as-link {
   text-decoration: none;
   color: var(--color-black);
+  margin: 0 0.5rem;
+  padding: 0;
+  font-size: 1rem;
+  font-weight: 700;
+
+  background: none;
+  border: none;
+  box-shadow: none;
+
+  cursor: pointer;
 
   &:hover {
+    color: var(--color-accent);
+    text-decoration: underline;
+  }
+
+  &:active {
     color: var(--color-secondary);
     text-decoration: underline;
   }
@@ -104,8 +122,14 @@ a {
 /* ---------------------------------------------------------------------- MAIN TITLE */
 h1,
 .title {
-  margin: 1rem 0;
+  margin: 1rem;
   text-align: center;
+}
+
+/* ---------------------------------------------------------------------- MAIN TITLE */
+h2,
+.sub-title {
+  margin: 1rem;
 }
 
 /* ---------------------------------------------------------------------- LABELS */
@@ -202,25 +226,27 @@ button,
   text-decoration: none;
 
   /* -------------------------------------------------- DEFAULT STYLE */
-  background-color: var(--color-white);
-  border-radius: 0.5rem;
-  border: 2px solid var(--color-black);
-  height: 2rem;
-  box-shadow: 0px 4px 4px 0px #00000040;
-  color: var(--color-black);
-  font-size: 1rem;
+  &:not(.as-link) {
+    background-color: var(--color-white);
+    border-radius: 0.5rem;
+    border: 2px solid var(--color-black);
+    height: 2rem;
+    box-shadow: 0px 4px 4px 0px #00000040;
+    color: var(--color-black);
+    font-size: 1rem;
 
-  /* -------------------------------------------------- HOVER */
-  &:hover {
-    cursor: pointer;
-    text-decoration: none;
-    outline: 2px solid;
-  }
+    /* -------------------------------------------------- HOVER */
+    &:hover {
+      cursor: pointer;
+      text-decoration: none;
+      outline: 2px solid;
+    }
 
-  /* -------------------------------------------------- ACTIVE */
-  &:active {
-    opacity: 0.9;
-    transform: scale(0.95);
+    /* -------------------------------------------------- ACTIVE */
+    &:active {
+      opacity: 0.9;
+      transform: scale(0.95);
+    }
   }
 
   /* -------------------------------------------------- CLEAR */
@@ -347,7 +373,7 @@ button,
 /* ---------------------------------------------------------------------- SHOW TABLE */
 .show-table {
   width: 100%;
-  border: 2px solid var(--color-black);
+  border: 3px solid var(--color-black);
   border-collapse: collapse;
   white-space: nowrap;
   text-overflow: ellipsis;

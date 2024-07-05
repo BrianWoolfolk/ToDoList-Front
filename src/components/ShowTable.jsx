@@ -119,8 +119,15 @@ const ShowTable = (props) => {
                   <td>{item.priority}</td>
                   <td>{item.due_date ? intoInputDate(item.due_date) : "-"}</td>
                   <td>
-                    <button onClick={() => props.onEdit?.(item)}>Edit</button>/
                     <button
+                      className="as-link"
+                      onClick={() => props.onEdit?.(item)}
+                    >
+                      Edit
+                    </button>
+                    /
+                    <button
+                      className="as-link"
                       onClick={() => {
                         if (fetcher.state !== "idle") return;
 
