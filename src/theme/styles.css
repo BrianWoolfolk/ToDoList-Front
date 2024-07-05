@@ -435,8 +435,23 @@ button,
   margin-top: auto;
   width: max-content;
   padding: 1.5rem 3rem;
-  display: flex;
   gap: 0.5rem;
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  align-items: center;
+  justify-items: center;
+
+  button {
+    margin: 0;
+  }
+
+  .forward {
+    grid-column: 8 / 9;
+  }
+
+  .right-most {
+    grid-column: 9 / 10;
+  }
 }
 
 /* ---------------------------------------------------------------------- METRICS */
@@ -480,5 +495,14 @@ a {
   * {
     user-select: none;
   }
+}
+
+/* ---------------------------------------------------------------------- DISABLED */
+.disabled,
+:disabled {
+  opacity: 0.75;
+  box-shadow: none !important;
+  pointer-events: none;
+  filter: blur(0.5px);
 }
 /* #endregion */

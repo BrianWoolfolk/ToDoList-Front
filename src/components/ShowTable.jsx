@@ -24,6 +24,10 @@ const ShowTable = (props) => {
   const [sortDueDate, setSortDueDate] = useState(null);
 
   function r(p) {
+    if (p > props.maxpage || p < 1) {
+      return () => {};
+    }
+
     const s = new URLSearchParams(location.search);
     s.set("pag", p);
     return () => navigate(`${location.pathname}?${s}`);
@@ -54,6 +58,8 @@ const ShowTable = (props) => {
       method: markAs ? "POST" : "PUT",
     });
   }
+
+  const pp = props.page;
 
   return (
     <>
@@ -152,27 +158,44 @@ const ShowTable = (props) => {
       </table>
 
       <div className="pagination">
-        <button onClick={r(1)}>⇤</button>
+        <button className="left-most" onClick={r(1)}>
+          ⇤
+        </button>
 
-        {props.page - 1 >= 1 && (
+        <button className="back" onClick={r(pp - 1)} disabled={pp - 1 < 1}>
+          ◀︎
+        </button>
+
+        {pp + 1 >= props.maxpage && <span />}
+        {pp + 1 > props.maxpage && <span />}
+
+        {pp - 1 >= 1 && (
           <>
-            <button onClick={r(props.page - 1)}>◀︎</button>
-            {props.page - 1 > 1 && "..."}
-            <button onClick={r(props.page - 1)}>{props.page - 1}</button>
+            {pp - 1 > 1 && <span>...</span>}
+            <button onClick={r(pp - 1)}>{pp - 1}</button>
           </>
         )}
 
-        <b>{props.page}</b>
+        <button disabled>{pp}</button>
 
-        {props.page + 1 <= props.maxpage && (
+        {pp + 1 <= props.maxpage && (
           <>
-            <button onClick={r(props.page + 1)}>{props.page + 1}</button>
-            {props.page + 1 < props.maxpage && "..."}
-            <button onClick={r(props.page + 1)}>▶︎</button>
+            <button onClick={r(pp + 1)}>{pp + 1}</button>
+            {pp + 1 < props.maxpage && <span>...</span>}
           </>
         )}
 
-        <button onClick={r(props.maxpage)}>⇥</button>
+        <button
+          className="forward"
+          onClick={r(pp + 1)}
+          disabled={pp + 1 > props.maxpage}
+        >
+          ▶︎
+        </button>
+
+        <button className="right-most" onClick={r(props.maxpage)}>
+          ⇥
+        </button>
       </div>
     </>
   );
