@@ -134,14 +134,7 @@ const ShowTable = (props) => {
                     /
                     <button
                       className="as-link"
-                      onClick={() => {
-                        if (fetcher.state !== "idle") return;
-
-                        fetcher.submit(null, {
-                          action: `/todos/${item.id}/delete`,
-                          method: "DELETE",
-                        });
-                      }}
+                      onClick={() => props.onDelete?.(item)}
                     >
                       Delete
                     </button>

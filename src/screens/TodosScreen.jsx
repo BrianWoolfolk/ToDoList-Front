@@ -10,6 +10,7 @@ const TodosScreen = () => {
   /** @type {import("../utils/SimulateBack").ToDo[]} */
   const { data, page, maxpage, lastMetrics } = useLoaderData();
   const [editToDo, setEditToDo] = useState(null);
+  const [isDelete, setDelete] = useState(false);
   const [refresh, volkey] = useRefresh();
 
   function handleEdit(todo) {
@@ -17,9 +18,13 @@ const TodosScreen = () => {
     refresh();
   }
 
-  // const handleDelete = (todo) => console.log(todo);
+  function handleDelete(todo) {
+    setDelete(true);
+    handleEdit(todo);
+  }
 
   function handleCloseModal() {
+    setDelete(false);
     setEditToDo(null);
     refresh();
   }
@@ -31,14 +36,19 @@ const TodosScreen = () => {
 
         <SearchControls />
 
-        <TodoModal edit={editToDo} key={volkey} onClose={handleCloseModal} />
+        <TodoModal
+          key={volkey}
+          edit={editToDo}
+          isDelete={isDelete}
+          onClose={handleCloseModal}
+        />
 
         <ShowTable
           data={data}
           page={page}
           maxpage={maxpage}
           onEdit={handleEdit}
-          // onDelete={handleDelete}
+          onDelete={handleDelete}
         />
       </div>
 

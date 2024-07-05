@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { useNavigation, useSubmit } from "react-router-dom";
+import { useFetcher } from "react-router-dom";
 import Input from "./Input";
 import { useRefresh } from "../scripts/scripts";
 
@@ -23,16 +23,16 @@ function newToDo() {
  *
  * @param {{
  * edit: import("../utils/SimulateBack").ToDo?,
+ * isDelete: boolean,
  * onClose: () => void}} props
  * @returns
  */
 const TodoModal = (props) => {
   const [LS, setLS] = useState(props.edit || newToDo());
   const [refresh, volkey] = useRefresh();
-  const submit = useSubmit();
+  const fetcher = useFetcher();
   const [open, setOpen] = useState(!!props.edit);
   const [loading, setLoading] = useState(false);
-  const navi = useNavigation();
 
   function handleCreate() {
     if (loading) return;
@@ -55,6 +55,14 @@ const TodoModal = (props) => {
   function handleSubmit(e) {
     e.preventDefault();
     if (loading) return;
+    setLoading(true);
+
+    if (props.isDelete) {
+      return fetcher.submit(null, {
+        action: `/todos/${LS.id}/delete`,
+        method: "DELETE",
+      });
+    }
 
     const data = new FormData();
     data.append("text", LS.text);
@@ -67,16 +75,18 @@ const TodoModal = (props) => {
     data.append("priority", LS.priority);
     data.append("id", LS.id);
 
-    setLoading(true);
-    submit(data, { method: props.edit ? "PUT" : "POST" });
+    fetcher.submit(data, {
+      action: "/todos",
+      method: props.edit ? "PUT" : "POST",
+    });
   }
 
   useEffect(() => {
-    if (navi.state === "idle" && loading) {
+    if (fetcher.state === "idle" && loading) {
       setLoading(false);
       handleCancel(true);
     }
-  }, [loading, navi.state, handleCancel]);
+  }, [loading, fetcher.state, handleCancel]);
 
   return (
     <>
@@ -92,7 +102,10 @@ const TodoModal = (props) => {
         <div className="modal-container">
           <div className="modal">
             <div className="modal-title">
-              <h3>{props.edit ? "Edit" : "Create new"} To Do Item</h3>
+              <h3>
+                {props.isDelete ? "Delete" : props.edit ? "Edit" : "Create new"}{" "}
+                To Do Item
+              </h3>
 
               <button className="exit" onClick={handleCancel}>
                 ✕
@@ -101,33 +114,40 @@ const TodoModal = (props) => {
 
             <form onSubmit={handleSubmit} key={volkey}>
               <Input
-                _store={LS}
+                _store={props.isDelete ? structuredClone(LS) : LS}
                 _store_var={"text"}
                 _type={"text"}
                 _required
                 _label={"Text message"}
-                _disabled={loading}
+                _disabled={loading || props.isDelete}
               />
+
               <Input
-                _store={LS}
+                _store={props.isDelete ? structuredClone(LS) : LS}
                 _store_var={"due_date"}
                 _type={"date"}
                 _label={"Due date (optional)"}
-                _disabled={loading}
+                _disabled={loading || props.isDelete}
               />
+
               <Input
-                _store={LS}
+                _store={props.isDelete ? structuredClone(LS) : LS}
                 _store_var={"priority"}
                 _select_from={["LOW", "MEDIUM", "HIGH"]}
                 _required
                 _label={"Priority"}
-                _disabled={loading}
+                _disabled={loading || props.isDelete}
               />
 
               <div className="modal-controls">
                 <button disabled={loading} className="primary">
-                  {loading ? "Loading..." : "Save Item"}
+                  {loading
+                    ? "Loading..."
+                    : props.isDelete
+                    ? "Delete Item"
+                    : "Save Item"}
                 </button>
+
                 <button
                   type={"button"}
                   disabled={loading}
