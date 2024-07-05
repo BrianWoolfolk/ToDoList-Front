@@ -21,10 +21,10 @@ const ShowMetrics = (props) => {
   return (
     <div className="show-metrics">
       <div className="metrics-block">
-        <b>Average time to finish tasks (filters considered):</b>
+        <b>Average time to finish tasks:</b>
 
         <div className="metrics-items">
-          <p style={{ alignSelf: "center" }}>
+          <p className="main-time">
             {clockLike(props.metrics.total_pend)} minutes
           </p>
         </div>
@@ -33,10 +33,13 @@ const ShowMetrics = (props) => {
       <div className="metrics-block">
         <b>Average time to finish tasks by priority:</b>
 
-        <div className="metrics-items">
-          <p>Low: {clockLike(props.metrics.low_pend)} mins</p>
-          <p>Medium: {clockLike(props.metrics.mid_pend)} mins</p>
-          <p>High: {clockLike(props.metrics.high_pend)} mins</p>
+        <div className="metrics-items multiple">
+          Low:
+          <span>{clockLike(props.metrics.low_pend)} mins</span>
+          Medium:
+          <span>{clockLike(props.metrics.mid_pend)} mins</span>
+          High:
+          <span>{clockLike(props.metrics.high_pend)} mins</span>
         </div>
       </div>
     </div>
