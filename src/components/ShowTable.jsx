@@ -77,14 +77,14 @@ const ShowTable = (props) => {
             </th>
             <th>Name</th>
             <th>
-              {"Priority "}
-              <button onClick={() => applyFilters(true)}>
+              <button className="as-link" onClick={() => applyFilters(true)}>
+                {"Priority "}
                 {sortPriority === null ? "◉" : sortPriority ? "▼" : "▲"}
               </button>
             </th>
             <th>
-              {"Due Date "}
-              <button onClick={() => applyFilters(false)}>
+              <button className="as-link" onClick={() => applyFilters(false)}>
+                {"Due Date "}
                 {sortDueDate === null ? "◉" : sortDueDate ? "▼" : "▲"}
               </button>
             </th>

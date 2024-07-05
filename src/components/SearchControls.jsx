@@ -62,9 +62,9 @@ const SearchControls = () => {
         <option value={"false"}>Undone</option>
       </select>
 
-      <button>Search</button>
+      <button className="primary">Search</button>
       <button
-        className="reset-button"
+        className="secondary reset-button"
         type="button"
         onClick={(e) => handleSearch(e, "", "", "")}
       >

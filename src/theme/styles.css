@@ -252,7 +252,23 @@ button,
   /* -------------------------------------------------- CLEAR */
   &.clear {
     background-color: transparent;
-    color: var(--color-secondary);
+  }
+
+  /* -------------------------------------------------- PRIMARY */
+  &.primary {
+    background-color: var(--color-black);
+    color: var(--color-white);
+    border-color: var(--color-green);
+
+    &:hover {
+      border-color: var(--color-accent);
+      outline-color: var(--color-dark-green);
+    }
+  }
+
+  /* -------------------------------------------------- SECONDARY */
+  &.secondary {
+    background-color: var(--color-green);
   }
 }
 /* #endregion */
@@ -333,6 +349,7 @@ button,
         height: 2rem;
         border: none;
         background-color: transparent;
+        box-shadow: none;
       }
     }
 
@@ -340,12 +357,13 @@ button,
       margin: 0;
       display: flex;
       flex-direction: column;
-      gap: 0.5rem;
       padding: 0.5rem 0;
 
       label {
         text-align: left;
         font-size: 1.25rem;
+        margin-top: 1rem;
+        padding-bottom: 0.5rem;
       }
     }
 
@@ -353,18 +371,10 @@ button,
       display: flex;
       align-items: center;
       justify-content: space-between;
+      margin-top: 2rem;
 
       button {
         margin: 0;
-      }
-
-      button.back {
-        border: none;
-        display: flex;
-        vertical-align: middle;
-        padding: 0;
-        align-items: center;
-        background: none;
       }
     }
   }

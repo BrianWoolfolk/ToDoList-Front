@@ -125,11 +125,10 @@ const TodoModal = (props) => {
               />
 
               <div className="modal-controls">
-                <button disabled={loading}>
+                <button disabled={loading} className="primary">
                   {loading ? "Loading..." : "Save Item"}
                 </button>
                 <button
-                  className="back"
                   type={"button"}
                   disabled={loading}
                   onClick={handleCancel}
