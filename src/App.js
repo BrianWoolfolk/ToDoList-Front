@@ -16,13 +16,10 @@ export const LOCALHOST = "http://localhost:9090";
 async function loadTodos(req) {
   const url = new URL(req.request.url);
 
-  const ff = await fetch(`${LOCALHOST}/todos${url.search}`).catch((data) => {
-    console.warn(data);
-    return null;
-  });
-  if (!ff) throw new Response("Bad request", { status: 400 });
+  const response = await fetch(`${LOCALHOST}/todos${url.search}`);
+  if (!response.ok) throw response;
 
-  return await ff.json();
+  return await response.json();
 }
 
 /**
@@ -69,13 +66,7 @@ async function editTodo(req) {
     response = await fetch(`${LOCALHOST}/todos/${id}`, requestOptions);
   }
 
-  if (!response.ok) {
-    console.warn(response);
-    throw new Response("Bad Request", {
-      status: 400,
-      statusText: "Missing or invalid fields passed",
-    });
-  }
+  if (!response.ok) throw response;
 
   return null;
 }
@@ -99,13 +90,7 @@ async function toggleDone(req) {
     requestOptions
   );
 
-  if (!response.ok) {
-    console.warn(response);
-    throw new Response("Bad Request", {
-      status: 400,
-      statusText: "Bad status and/or method",
-    });
-  }
+  if (!response.ok) throw response;
 
   return null;
 }
