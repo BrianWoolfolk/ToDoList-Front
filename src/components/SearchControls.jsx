@@ -39,6 +39,7 @@ const SearchControls = () => {
         id="name"
         placeholder="text"
         value={text}
+        maxLength={120}
         onChange={handleText}
       />
 

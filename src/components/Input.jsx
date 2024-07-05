@@ -13,6 +13,7 @@ import { fromInputDate, intoInputDate, parseID } from "../scripts/scripts";
  * _placeholder?: string,
  * _type?: "text" | "date" | "checkbox",
  * _disabled?: boolean,
+ * _max?: number,
  * _select_from?: string[]}} props
  * @returns JSX Input semi-controlled
  */
@@ -95,6 +96,7 @@ const Input = (props) => {
         }
         checked={LS}
         required={props._required}
+        maxLength={props._max}
         placeholder={
           props._placeholder ||
           (props._required ? "Please fill this field" : "<Empty>")

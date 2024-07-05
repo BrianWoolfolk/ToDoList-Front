@@ -120,6 +120,7 @@ const TodoModal = (props) => {
                 _required
                 _label={"Text message"}
                 _disabled={loading || props.isDelete}
+                _max={120}
               />
 
               <Input
