@@ -1,5 +1,6 @@
 /* #region ##################################################################################### VARIABLES */
 :root {
+  /* ---------------------------------------------------------------------- COMMON */
   --color-black: #425e4c;
   --color-white: #f1fbf3;
 
@@ -7,19 +8,21 @@
   --color-secondary: #ee8459;
   --color-danger: #c55000;
 
-  --color-bg-secondary: #9bb8cd;
-  --color-bg-ternary: #fff7d4;
-  --color-bg-clear: #f9efdb;
-  --color-golden: #eec759;
-
   --color-lime: #b1c381;
   --color-green: #88ab8e;
   --color-dark-green: #638889;
 
+  /* ---------------------------------------------------------------------- BACKGROUNDS */
   --bg-green-00: #c3d5cd;
   --bg-green-01: #e4edcb;
   --bg-green-02: #d0ddad;
   --bg-green-03: #81ae89;
+
+  /* ---------------------------------------------------------------------- OTHER */
+  --color-bg-secondary: #9bb8cd;
+  --color-bg-ternary: #fff7d4;
+  --color-bg-clear: #f9efdb;
+  --color-golden: #eec759;
 }
 /* #endregion */
 
@@ -65,21 +68,7 @@ body,
 }
 /* #endregion */
 
-/* #region ##################################################################################### GENERAL COMPONENTS */
-/* ---------------------------------------------------------------------- SCREEN (VERTICAL FLEX) */
-.screen {
-  margin: 0 1.25rem;
-  height: 100%;
-  flex-grow: 1;
-  position: relative;
-}
-
-h1,
-.title {
-  margin: 1rem 0;
-  text-align: center;
-}
-
+/* #region ##################################################################################### NAVIGATION */
 /* ---------------------------------------------------------------------- NAV */
 nav {
   display: flex;
@@ -99,17 +88,6 @@ nav {
   }
 }
 
-/* ---------------------------------------------------------------------- LABELS */
-label,
-.as-label {
-  margin: 0 0.5rem;
-
-  color: var(--color-black);
-  font-family: sans-serif;
-  font-weight: 800;
-  text-align: right;
-}
-
 /* ---------------------------------------------------------------------- ANCHOR TAGS */
 a {
   text-decoration: none;
@@ -120,7 +98,29 @@ a {
     text-decoration: underline;
   }
 }
+/* #endregion */
 
+/* #region ##################################################################################### TITLES & TEXT */
+/* ---------------------------------------------------------------------- MAIN TITLE */
+h1,
+.title {
+  margin: 1rem 0;
+  text-align: center;
+}
+
+/* ---------------------------------------------------------------------- LABELS */
+label,
+.as-label {
+  margin: 0 0.5rem;
+
+  color: var(--color-black);
+  font-family: sans-serif;
+  font-weight: 800;
+  text-align: right;
+}
+/* #endregion */
+
+/* #region ##################################################################################### INPUTS & BUTTONS */
 /* ---------------------------------------------------------------------- INPUTS */
 input,
 select,
@@ -427,6 +427,14 @@ button,
 /* #endregion */
 
 /* #region ##################################################################################### UTILITY CLASSES */
+/* ---------------------------------------------------------------------- SCREEN */
+.screen {
+  margin: 0 1.25rem;
+  height: 100%;
+  flex-grow: 1;
+  position: relative;
+}
+
 /* ---------------------------------------------------------------------- NO SELECTABLE */
 .no-selectable,
 button,
