@@ -1,17 +1,43 @@
 /* #region ##################################################################################### VARIABLES */
 :root {
-  --color-black: #1d1d1d;
+  --color-black: #425e4c;
+  --color-white: #f1fbf3;
   --color-background: #c3d5cd;
+  --color-accent: #117b45;
+  /* --color-accent: #c55000; */
+  --color-secondary: #b1c381;
+  --color-danger: #ee8459;
+  --color-bg-secondary: #9bb8cd;
+  --color-bg-ternary: #fff7d4;
+  --color-golden: #eec759;
+  --color-green: #b1c381;
+  --color-dark-green: #88ab8e;
+  --color-darker-green: #638889;
+  --color-bg-clear: #f9efdb;
+
+  --bg-green-01: #e4edcb;
+  --bg-green-02: #d0ddad;
+  --bg-green-03: #81ae89;
 }
 /* #endregion */
 
 /* #region ##################################################################################### RESETS */
 /* ---------------------------------------------------------------------- ALL */
-* {
+*,
+*::after,
+*::before {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   font-family: sans-serif;
+}
+
+/* ---------------------------------------------------------------------- RESET PSEUDO */
+::after,
+::before {
+  position: absolute;
+  top: 0%;
+  left: 0%;
 }
 
 /* ---------------------------------------------------------------------- RESET DOCUMENT */
@@ -57,7 +83,7 @@ nav {
   display: flex;
   gap: 0.75rem;
   padding: 0.3rem;
-  border-bottom: 2px solid black;
+  border-bottom: 2px solid var(--color-black);
 
   .active {
     pointer-events: none;
@@ -66,12 +92,148 @@ nav {
     opacity: 0.8;
   }
 }
+
+/* ---------------------------------------------------------------------- FORM */
+form {
+  margin: 1.75rem 2.5rem;
+}
+
+/* ---------------------------------------------------------------------- LABELS */
+label,
+.as-label {
+  margin: 0 0.5rem;
+
+  color: var(--color-black);
+  font-family: sans-serif;
+  font-weight: 800;
+  text-align: right;
+}
+
+/* ---------------------------------------------------------------------- ANCHOR TAGS */
+a {
+  text-decoration: none;
+  color: var(--color-black);
+
+  &:hover {
+    color: var(--color-secondary);
+    text-decoration: underline;
+  }
+}
+
+/* ---------------------------------------------------------------------- INPUTS */
+input,
+select,
+.input {
+  padding: 0.25em 0.5em;
+  font-weight: 400;
+  font-size: 1rem;
+
+  background-color: var(--color-white);
+  color: var(--color-black);
+
+  border: 2px solid var(--color-black);
+  outline: none;
+
+  min-width: 10ch;
+
+  &[type="checkbox"] {
+    width: 1.5rem;
+    height: 1.5rem;
+    min-width: 0;
+
+    border-radius: 0;
+    vertical-align: text-bottom;
+    margin: 0 0.25rem;
+    padding: 0;
+
+    position: relative;
+    appearance: none;
+
+    &::after {
+      content: "";
+      width: 100%;
+      height: 100%;
+      text-align: center;
+    }
+
+    &:checked {
+      background-color: var(--color-green);
+
+      &::after {
+        content: "✔️";
+      }
+    }
+  }
+
+  &::placeholder {
+    opacity: 75%;
+    letter-spacing: 1px;
+    font-kerning: none;
+  }
+
+  &:hover {
+    box-shadow: 0 0 0px 2px var(--color-black);
+  }
+
+  &:invalid {
+    color: var(--color-danger);
+    border: 2px solid var(--color-danger);
+    box-shadow: 0 0 0px 2px var(--color-danger);
+  }
+
+  &:focus,
+  &:focus-visible,
+  &:focus-within {
+    color: var(--color-secondary);
+    border: 2px solid var(--color-secondary);
+    box-shadow: 0 0 0px 2px var(--color-secondary);
+  }
+}
+
+/* ---------------------------------------------------------------------- BUTTONS */
+button,
+.as-button {
+  margin: 0.5rem 0.75rem;
+  padding: 0.3em 1em;
+
+  font-family: sans-serif;
+  font-weight: 500;
+  text-decoration: none;
+
+  /* -------------------------------------------------- DEFAULT STYLE */
+  background-color: var(--color-white);
+  border-radius: 0.5rem;
+  border: 2px solid var(--color-black);
+  height: 2rem;
+  box-shadow: 0px 4px 4px 0px #00000040;
+  color: var(--color-black);
+  font-size: 1rem;
+
+  /* -------------------------------------------------- HOVER */
+  &:hover {
+    cursor: pointer;
+    text-decoration: none;
+    opacity: 0.7;
+  }
+
+  /* -------------------------------------------------- ACTIVE */
+  &:active {
+    opacity: 0.9;
+    transform: scale(0.95);
+  }
+
+  /* -------------------------------------------------- CLEAR */
+  &.clear {
+    background-color: transparent;
+    color: var(--color-secondary);
+  }
+}
 /* #endregion */
 
 /* #region ##################################################################################### MAIN COMPONENTS */
 /* ---------------------------------------------------------------------- SEARCH CONTROLS */
 .search-controls {
-  border: 2px solid black;
+  border: 2px solid var(--color-black);
   padding: 0.5rem 1rem;
   display: grid;
   grid-template-columns: min-content max-content 1fr;
@@ -111,7 +273,7 @@ nav {
   padding: 2.5rem 0;
 
   .modal {
-    background-color: #f4f4f4;
+    background-color: var(--color-bg-ternary);
     padding: 2rem;
     border-radius: 1rem;
     min-width: 32rem;
@@ -175,28 +337,42 @@ nav {
 /* ---------------------------------------------------------------------- SHOW TABLE */
 .show-table {
   width: 100%;
-  border: 2px solid black;
+  border: 2px solid var(--color-black);
   border-collapse: collapse;
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
 
   thead {
-    background-color: darkgray;
-    border: 2px solid black;
+    background-color: var(--bg-green-03);
+    border: 2px solid var(--color-black);
   }
 
   th {
     padding: 0.3rem 0.5rem;
     text-align: left;
+
+    &:not(:last-child) {
+      border-right: 2px solid var(--color-black);
+    }
   }
 
-  col {
-    border: 2px solid black;
+  tbody {
+    tr {
+      background-color: var(--bg-green-01);
+    }
+
+    tr:nth-child(2n) {
+      background-color: var(--bg-green-02);
+    }
+
+    tr:last-child {
+      border-bottom: 2px solid var(--color-black);
+    }
   }
 
-  tr {
-    border: 1px solid black;
+  col:not(:last-child) {
+    border-right: 2px solid var(--color-dark-green);
   }
 
   td {
@@ -207,7 +383,7 @@ nav {
 
 /* ---------------------------------------------------------------------- PAGINATION */
 .pagination {
-  border: 1px solid black;
+  border: 1px solid var(--color-black);
   margin: 2rem auto;
   margin-top: auto;
   width: max-content;
@@ -220,7 +396,7 @@ nav {
 .show-metrics {
   display: flex;
   justify-content: space-evenly;
-  border: 2px solid black;
+  border: 2px solid var(--color-black);
   margin: 0.5rem 1.5rem;
   padding: 0.5rem 1.5rem;
 
@@ -235,6 +411,19 @@ nav {
       flex-direction: column;
       justify-content: center;
     }
+  }
+}
+/* #endregion */
+
+/* #region ##################################################################################### UTILITY CLASSES */
+/* ---------------------------------------------------------------------- NO SELECTABLE */
+.no-selectable,
+button,
+a {
+  user-select: none;
+
+  * {
+    user-select: none;
   }
 }
 /* #endregion */
