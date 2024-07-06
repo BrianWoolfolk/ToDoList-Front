@@ -3,7 +3,7 @@ import "./theme/styles.css";
 import HomeScreen from "./screens/HomeScreen";
 import NotFoundScreen from "./screens/NotFoundScreen";
 import TodosScreen from "./screens/TodosScreen";
-import { fromInputDate, intoInputDate } from "./scripts/scripts";
+import { fromInputDate, intoInputDate, stall } from "./scripts/scripts";
 import LandingScreen from "./screens/LandingScreen";
 
 export const LOCALHOST = "http://localhost:9090";
@@ -15,6 +15,7 @@ export const LOCALHOST = "http://localhost:9090";
  */
 async function loadTodos(req) {
   const url = new URL(req.request.url);
+  if (GS.delay) await stall(GS.delay);
 
   const response = await fetch(`${LOCALHOST}/todos${url.search}`);
   if (!response.ok) throw response;
@@ -29,6 +30,7 @@ async function loadTodos(req) {
  */
 async function editTodo(req) {
   const data = await req.request.formData();
+  if (GS.delay) await stall(GS.delay);
 
   const id = data.get("id");
   const text = data.get("text");
@@ -79,6 +81,7 @@ async function editTodo(req) {
 async function toggleDone(req) {
   const { id, status } = req.params;
   const s = new URL(req.request.url).search;
+  if (GS.delay) await stall(GS.delay);
 
   const requestOptions = {
     method: req.request.method,
@@ -97,6 +100,10 @@ async function toggleDone(req) {
 
 /** @type {import("./utils/SimulateBack").ToDo[]} */
 export const DB = [];
+
+export const GS = {
+  delay: 0,
+};
 
 function App() {
   return (

@@ -1,14 +1,14 @@
 import { useState } from "react";
-import { randomDate, randomRange } from "../scripts/scripts";
-import { LOCALHOST } from "../App";
+import { randomDate, randomRange, stall } from "../scripts/scripts";
+import { LOCALHOST, GS } from "../App";
 
 const RandomAdd = () => {
   const size = 45;
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(0);
 
   async function handleClick() {
     if (loading) return;
-    setLoading(true);
+    setLoading(1);
 
     const p = ["HIGH", "MEDIUM", "LOW"];
     for (let i = 0; i < size; i++) {
@@ -39,22 +39,34 @@ const RandomAdd = () => {
 
       const response = await fetch(LOCALHOST + "/todos", requestOptions);
 
+      if (GS.delay) await stall(GS.delay);
       if (!response.ok) console.error("error:", i, response);
+      setLoading(i + 1);
     }
 
-    setLoading(false);
+    setLoading(0);
   }
 
   return (
-    <button
-      disabled={loading}
-      onClick={() => {
-        if (loading) return;
-        handleClick();
-      }}
-    >
-      {loading ? "Sending..." : "Random Add (45)"}
-    </button>
+    <>
+      <button
+        disabled={!!loading}
+        onClick={() => {
+          if (loading) return;
+          handleClick();
+        }}
+      >
+        {loading ? "Sending..." : "Random Add (45)"}
+      </button>
+
+      {loading ? (
+        <div className="spinner">
+          Sending {loading} of {size}...
+        </div>
+      ) : (
+        <></>
+      )}
+    </>
   );
 };
 

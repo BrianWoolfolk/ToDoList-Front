@@ -1,7 +1,9 @@
-import { Outlet } from "react-router";
+import { Outlet, useNavigation } from "react-router";
 import { NavLink } from "react-router-dom";
 
 const HomeScreen = () => {
+  const navi = useNavigation();
+
   return (
     <>
       <nav>
@@ -10,6 +12,8 @@ const HomeScreen = () => {
       </nav>
 
       <Outlet />
+
+      {navi.state !== "idle" && <div className="spinner">{navi.state}...</div>}
     </>
   );
 };

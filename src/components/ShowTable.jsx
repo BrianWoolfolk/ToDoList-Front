@@ -168,6 +168,10 @@ const ShowTable = (props) => {
         </tbody>
       </table>
 
+      {fetcher.state !== "idle" && (
+        <div className="spinner">{fetcher.state}...</div>
+      )}
+
       <div className="pagination">
         <button className="left-most" onClick={r(1)}>
           ⇤

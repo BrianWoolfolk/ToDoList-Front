@@ -540,4 +540,78 @@ button:disabled {
 .no-urgent {
   background-color: var(--color-accent);
 }
+
+/* ---------------------------------------------------------------------- SPINNER */
+.spinner {
+  position: fixed;
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 100;
+
+  font-size: 2.25rem;
+  text-transform: uppercase;
+  color: var(--color-black);
+  user-select: none;
+
+  animation: fade-in 2s ease-out 0s;
+
+  /* -------------------------------------------------- BEFORE */
+  &::before {
+    content: "";
+    width: 100%;
+    height: 100%;
+    background-color: var(--color-white);
+    opacity: 0.75;
+    z-index: -1;
+  }
+
+  /* -------------------------------------------------- AFTER */
+  &::after {
+    content: "";
+    position: relative;
+    color: var(--color-accent);
+    width: 2.5rem;
+    height: 5rem;
+    translate: -50%;
+    border-top: 8px solid;
+    border-left: 8px solid;
+    border-bottom: 8px solid;
+    border-top-left-radius: 100px;
+    border-bottom-left-radius: 100px;
+    transform-origin: right center;
+    animation: anim-spinner 1s linear 0s infinite;
+  }
+}
+/* #endregion */
+
+/* #region ##################################################################################### ANIMATIONS */
+/* ---------------------------------------------------------------------- ANIM SPINNER */
+@keyframes anim-spinner {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
+}
+
+/* ---------------------------------------------------------------------- FADE IN */
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  75% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
 /* #endregion */

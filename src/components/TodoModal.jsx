@@ -98,6 +98,10 @@ const TodoModal = (props) => {
         {loading ? "Loading..." : "+ New To Do"}
       </button>
 
+      {fetcher.state !== "idle" && (
+        <div className="spinner">{fetcher.state}...</div>
+      )}
+
       {open && (
         <div className="modal-container">
           <div className="modal">
