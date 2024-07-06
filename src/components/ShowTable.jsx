@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from "react-router";
-import { intoInputDate } from "../scripts/scripts";
+import { fromInputDate, intoInputDate } from "../scripts/scripts";
 import { useFetcher } from "react-router-dom";
 import { useState } from "react";
 
@@ -100,6 +100,21 @@ const ShowTable = (props) => {
         <tbody>
           {props.data && props.data.length ? (
             props.data.map((item, index) => {
+              // CALCULATE TIME & STRIKETHROUGH
+              let cNameStrike = "";
+              let cNameDate;
+              if (item.done) cNameStrike = "strike";
+              else if (item.due_date) {
+                const due = fromInputDate(item.due_date);
+                const today = new Date();
+                const timeDiff = due.getTime() - today.getTime();
+                const rawDays = Math.floor(timeDiff / (24000 * 3600));
+
+                if (rawDays <= 7) cNameDate = "urgent";
+                else if (rawDays <= 14) cNameDate = "semi-urgent";
+                else cNameDate = "no-urgent";
+              }
+
               return (
                 <tr key={index}>
                   <td>
@@ -121,9 +136,12 @@ const ShowTable = (props) => {
                     />
                   </td>
 
-                  <td>{item.text}</td>
-                  <td>{item.priority}</td>
-                  <td>{item.due_date ? intoInputDate(item.due_date) : "-"}</td>
+                  <td className={cNameStrike}>{item.text}</td>
+                  <td className={cNameStrike}>{item.priority}</td>
+                  <td className={cNameDate || cNameStrike}>
+                    {item.due_date ? intoInputDate(item.due_date) : "-"}
+                  </td>
+
                   <td>
                     <button
                       className="as-link"

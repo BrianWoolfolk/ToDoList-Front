@@ -407,6 +407,12 @@ button,
   tbody {
     tr {
       background-color: var(--bg-green-01);
+
+      &:hover {
+        outline: 2px solid;
+        filter: drop-shadow(0px 0px 4px #00000040) contrast(0.95)
+          brightness(1.15);
+      }
     }
 
     tr:nth-child(2n) {
@@ -515,5 +521,23 @@ button.disabled,
 button:disabled {
   opacity: 0.75;
   filter: blur(0.5px);
+}
+
+/* ---------------------------------------------------------------------- STRIKE */
+.strike {
+  text-decoration: line-through !important;
+}
+
+/* ---------------------------------------------------------------------- TIME-DEPENDANT URGENCIES */
+.urgent {
+  background-color: var(--color-secondary);
+}
+
+.semi-urgent {
+  background-color: var(--color-golden);
+}
+
+.no-urgent {
+  background-color: var(--color-accent);
 }
 /* #endregion */
