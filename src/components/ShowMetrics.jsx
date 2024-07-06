@@ -19,7 +19,7 @@ const ShowMetrics = (props) => {
   if (!props.metrics) return <h2>There aren't metrics to show!</h2>;
 
   return (
-    <div className="show-metrics">
+    <div className="show-metrics" data-testid="showmetrics">
       <div className="metrics-block">
         <b>Average time to finish tasks:</b>
 

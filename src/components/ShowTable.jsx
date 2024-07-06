@@ -63,7 +63,7 @@ const ShowTable = (props) => {
 
   return (
     <>
-      <table className="show-table">
+      <table className="show-table" data-testid="showtable">
         <colgroup>
           <col style={{ width: "1%" }} />
           <col style={{ width: "20%" }} />
@@ -162,7 +162,7 @@ const ShowTable = (props) => {
             })
           ) : (
             <tr>
-              <td>Empty!</td>
+              <td colSpan={5}>Empty!</td>
             </tr>
           )}
         </tbody>
