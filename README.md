@@ -1,3 +1,19 @@
+# To Do List App
+
+## Install using `npm install`
+
+To create the `node_modules` folder and run the app first we need to enter the `npm install` command and wait a few minutes to load and finish.
+
+## Run Tests using `npm test`
+
+To run the react-scripts tests suite and see the results in the console.
+
+## Run App using `npm start`
+
+To start the application. Be sure to have the `.env` file for it to start the app with port 8080, otherwise will use the default 3000 port.
+
+To see the app, go to [http://localhost:8080/](http://localhost:8080/) for further details and considerations.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
