@@ -126,21 +126,26 @@ export function fitString(
   return result;
 }
 
-// ---------------------------------------------------------------------- CLOCK LIKE
+// ---------------------------------------------------------------------- METRICS TIME
 /**
- * Takes any number of minutes and converts it into hours:minutes.
- * @param {number} minutes Total minutes to parse
- * @returns {string} A string format like "hh:mm"
+ * Takes any number of seconds and converts it into days, hours, minutes.
+ *
+ * If no seconds are given, it shows 'N/A', or 'less than a minute' if needed.
+ * @param {number} seconds Total seconds to parse
+ * @returns {string} A string indicating the time left
  */
-export function clockLike(minutes) {
-  minutes = parseNumber(minutes);
+export function metricsTime(seconds) {
+  seconds = parseNumber(seconds);
+  const minutes = Math.floor(seconds / 60);
   const hrs = Math.floor(minutes / 60);
   let str = "";
 
   if (hrs >= 60) str += `${Math.floor(hrs / 60)} day(s) `;
-  str += `${hrs % 60}`.padStart(2, "0") + ":";
-  str += `${minutes % 60}`.padStart(2, "0");
+  if (minutes >= 60) str += `${hrs % 60}`.padStart(2, "0") + " hr(s) ";
+  str += `${minutes % 60}`.padStart(2, "0") + " min(s)";
 
+  if (!seconds) return "N/A";
+  if (seconds < 60) return "less than a minute";
   return str;
 }
 // #endregion

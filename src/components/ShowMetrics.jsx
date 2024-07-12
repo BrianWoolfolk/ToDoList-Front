@@ -1,4 +1,4 @@
-import { clockLike } from "../scripts/scripts";
+import { metricsTime } from "../scripts/scripts";
 
 /**
  *
@@ -24,9 +24,7 @@ const ShowMetrics = (props) => {
         <b>Average time to finish tasks:</b>
 
         <div className="metrics-items">
-          <p className="main-time">
-            {clockLike(props.metrics.total_pend)} minutes
-          </p>
+          <p className="main-time">{metricsTime(props.metrics.total_pend)}</p>
         </div>
       </div>
 
@@ -35,11 +33,11 @@ const ShowMetrics = (props) => {
 
         <div className="metrics-items multiple">
           Low:
-          <span>{clockLike(props.metrics.low_pend)} mins</span>
+          <span>{metricsTime(props.metrics.low_pend)}</span>
           Medium:
-          <span>{clockLike(props.metrics.mid_pend)} mins</span>
+          <span>{metricsTime(props.metrics.mid_pend)}</span>
           High:
-          <span>{clockLike(props.metrics.high_pend)} mins</span>
+          <span>{metricsTime(props.metrics.high_pend)}</span>
         </div>
       </div>
     </div>
