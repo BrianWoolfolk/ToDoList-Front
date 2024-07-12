@@ -5,6 +5,7 @@ import { LOCALHOST, GS } from "../App";
 const RandomAdd = () => {
   const size = 45;
   const [loading, setLoading] = useState(0);
+  const [error, setError] = useState("");
 
   async function handleClick() {
     if (loading) return;
@@ -37,8 +38,14 @@ const RandomAdd = () => {
         redirect: "follow",
       };
 
-      const response = await fetch(LOCALHOST + "/todos", requestOptions);
+      const response = await fetch(LOCALHOST + "/todos", requestOptions).catch(
+        (error) => {
+          setError(error.data || "Failed to fetch!");
+          return null;
+        }
+      );
 
+      if (response === null) break;
       if (GS.delay) await stall(GS.delay);
       if (!response.ok) console.error("error:", i, response);
       setLoading(i + 1);
@@ -56,7 +63,7 @@ const RandomAdd = () => {
           handleClick();
         }}
       >
-        {loading ? "Sending..." : "Random Add (45)"}
+        {loading ? "Sending..." : error || "Random Add (45)"}
       </button>
 
       {loading ? (
