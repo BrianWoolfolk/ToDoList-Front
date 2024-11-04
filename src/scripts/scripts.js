@@ -198,7 +198,11 @@ export function parseNumber(str, decimal = false) {
  * @param {string | Date} date Una fecha real la cual meter al input.
  */
 export function intoInputDate(date) {
+  if (!date) return "";
+
   const tt = new Date(date);
+  if (isNaN(tt.getTime())) return "";
+
   const dd = tt.getDate().toString();
   const mm = (tt.getMonth() + 1).toString();
   const yy = tt.getFullYear().toString();
@@ -220,6 +224,8 @@ export function intoInputDate(date) {
  * @param {string} date `string` directamente sacado como value del input.
  */
 export function fromInputDate(date) {
+  if (!date) return null;
+
   const yy = parseNumber(date.substring(0, 4));
   const mm = parseNumber(date.substring(5, 7)) - 1;
   const dd = parseNumber(date.substring(8, 10));

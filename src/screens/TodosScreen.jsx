@@ -5,10 +5,11 @@ import ShowTable from "../components/ShowTable";
 import { useState } from "react";
 import { useRefresh } from "../scripts/scripts";
 import ShowMetrics from "../components/ShowMetrics";
+import { ToDo } from "../utils/SimulateBack";
 
 const TodosScreen = () => {
-  /** @type {import("../utils/SimulateBack").ToDo[]} */
-  const { data, page, maxpage, lastMetrics } = useLoaderData();
+  /** @type {{ data: ToDo, page: number, maxpage: number, metrics: any }} */
+  const { data, page, maxpage, metrics } = useLoaderData();
   const [editToDo, setEditToDo] = useState(null);
   const [isDelete, setDelete] = useState(false);
   const [refresh, volkey] = useRefresh();
@@ -45,14 +46,14 @@ const TodosScreen = () => {
 
         <ShowTable
           data={data}
-          page={page}
+          page={page + 1}
           maxpage={maxpage}
           onEdit={handleEdit}
           onDelete={handleDelete}
         />
       </div>
 
-      <ShowMetrics metrics={lastMetrics} />
+      <ShowMetrics metrics={metrics} />
     </>
   );
 };

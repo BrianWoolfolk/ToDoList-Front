@@ -4,14 +4,14 @@ import { metricsTime } from "../scripts/scripts";
  *
  * @param {{
  * metrics: {
- *  high_avg: number,
- *  high_pend: number,
- *  mid_avg: number,
- *  mid_pend: number,
- *  low_avg: number,
- *  low_pend: number,
- *  total_avg: number,
- *  total_pend: number,
+ *  highAvg: number,
+ *  highPend: number,
+ *  midAvg: number,
+ *  midPend: number,
+ *  lowAvg: number,
+ *  lowPend: number,
+ *  totalAvg: number,
+ *  totalPend: number,
  * }
  * }} props
  */
@@ -24,7 +24,7 @@ const ShowMetrics = (props) => {
         <b>Average time to finish tasks:</b>
 
         <div className="metrics-items">
-          <p className="main-time">{metricsTime(props.metrics.total_pend)}</p>
+          <p className="main-time">{metricsTime(props.metrics.totalPend)}</p>
         </div>
       </div>
 
@@ -33,11 +33,11 @@ const ShowMetrics = (props) => {
 
         <div className="metrics-items multiple">
           Low:
-          <span>{metricsTime(props.metrics.low_pend)}</span>
+          <span>{metricsTime(props.metrics.lowPend)}</span>
           Medium:
-          <span>{metricsTime(props.metrics.mid_pend)}</span>
+          <span>{metricsTime(props.metrics.midPend)}</span>
           High:
-          <span>{metricsTime(props.metrics.high_pend)}</span>
+          <span>{metricsTime(props.metrics.highPend)}</span>
         </div>
       </div>
     </div>

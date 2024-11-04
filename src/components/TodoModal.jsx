@@ -2,22 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useFetcher } from "react-router-dom";
 import Input from "./Input";
 import { useRefresh } from "../scripts/scripts";
-
-/**
- *
- * @returns {import("../utils/SimulateBack").ToDo}
- */
-function newToDo() {
-  return {
-    id: -1,
-    text: "",
-    due_date: null,
-    done: false,
-    done_date: null,
-    priority: "low",
-    creation_date: new Date(),
-  };
-}
+import { ToDo } from "../utils/SimulateBack";
 
 /**
  *
@@ -28,7 +13,7 @@ function newToDo() {
  * @returns
  */
 const TodoModal = (props) => {
-  const [LS, setLS] = useState(props.edit || newToDo());
+  const [LS, setLS] = useState(props.edit || new ToDo());
   const [refresh, volkey] = useRefresh();
   const fetcher = useFetcher();
   const [open, setOpen] = useState(!!props.edit);
@@ -36,7 +21,7 @@ const TodoModal = (props) => {
 
   function handleCreate() {
     if (loading) return;
-    setLS(newToDo());
+    setLS(new ToDo());
     setOpen(true);
     refresh();
   }
@@ -74,6 +59,8 @@ const TodoModal = (props) => {
     );
     data.append("priority", LS.priority);
     data.append("id", LS.id);
+    data.append("tags", LS.tags || "");
+    data.append("assigned_user", LS.assigned_user || "");
 
     fetcher.submit(data, {
       action: "/todos",
@@ -141,6 +128,22 @@ const TodoModal = (props) => {
                 _select_from={["LOW", "MEDIUM", "HIGH"]}
                 _required
                 _label={"Priority"}
+                _disabled={loading || props.isDelete}
+              />
+
+              <Input
+                _store={props.isDelete ? structuredClone(LS) : LS}
+                _store_var={"tags"}
+                _type={"text"}
+                _label={"Tags"}
+                _disabled={loading || props.isDelete}
+              />
+
+              <Input
+                _store={props.isDelete ? structuredClone(LS) : LS}
+                _store_var={"assigned_user"}
+                _type={"text"}
+                _label={"Assigned user (optional)"}
                 _disabled={loading || props.isDelete}
               />
 

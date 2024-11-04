@@ -36,9 +36,128 @@ export function randomTodo(size) {
 }
 
 /** @typedef {"high" | "medium" | "low"} Priority */
-/** @typedef {{done: boolean | null, text: string | null, priority: Priority | null }} Filters */
-/** @typedef {{done: "asc" | "desc" | null, priority: "asc" | "desc" | null}} Sorts */
-/** @typedef {{id: number, text: string, due_date: Date | null, done: boolean, done_date: Date | null, priority: Priority, creation_date: Date}} ToDo */
+
+export class Filters {
+  /** @type {boolean? | undefined} */
+  done = undefined;
+  /** @type {string? | undefined} */
+  text = undefined;
+  /** @type {Priority? | undefined} */
+  priority = undefined;
+  /** @type {Date? | undefined} */
+  dueDateFrom = undefined;
+  /** @type {Date? | undefined} */
+  dueDateTo = undefined;
+  /** @type {Date? | undefined} */
+  creationDateFrom = undefined;
+  /** @type {Date? | undefined} */
+  creationDateTo = undefined;
+  /** @type {Date? | undefined} */
+  doneDateFrom = undefined;
+  /** @type {Date? | undefined} */
+  doneDateTo = undefined;
+  /** @type {string[]? | undefined} */
+  tags = undefined;
+  /** @type {string? | undefined} */
+  assignedUser = undefined;
+
+  createFromObject(obj) {
+    for (const key in obj) {
+      if (key in this) this[key] = obj[key];
+    }
+  }
+
+  createURLSearchParams(ignoreEmpty = false) {
+    const s = new URLSearchParams();
+    for (const key in this) {
+      if (this[key] !== undefined && (!ignoreEmpty || this[key])) {
+        if (this[key] instanceof Date) {
+          s.set(key, this[key].toISOString());
+          continue;
+        }
+
+        s.set(key, this[key]);
+      }
+    }
+
+    return s;
+  }
+}
+
+export class Sorts {
+  /** @type {boolean? | undefined} */
+  sortByDone = undefined;
+  /** @type {boolean? | undefined} */
+  sortByText = undefined;
+  /** @type {boolean? | undefined} */
+  sortByPriority = undefined;
+  /** @type {boolean? | undefined} */
+  sortByDueDate = undefined;
+  /** @type {boolean? | undefined} */
+  sortByCreationDate = undefined;
+  /** @type {boolean? | undefined} */
+  sortByDoneDate = undefined;
+  /** @type {boolean? | undefined} */
+  sortByAssignedUser = undefined;
+  /** @type {string[]? | undefined} */
+  sortOrder = undefined;
+
+  createFromObject(obj) {
+    for (const key in obj) {
+      if (key in this) this[key] = obj[key];
+    }
+  }
+
+  createURLSearchParams() {
+    const s = new URLSearchParams();
+    for (const key in this) {
+      if (this[key] !== undefined) s.set(key, this[key]);
+    }
+
+    return s;
+  }
+}
+
+export class ToDo {
+  /** @type {number} */
+  id;
+  /** @type {string} */
+  text;
+  /** @type {Priority} */
+  priority;
+  /** @type {Date | null} */
+  due_date;
+  /** @type {string | null} */
+  tags;
+  /** @type {string | null} */
+  assigned_user;
+  /** @type {boolean} */
+  done;
+  /** @type {Date | null} */
+  done_date;
+  /** @type {Date} */
+  creation_date;
+
+  constructor(obj) {
+    this.id = 0;
+    this.text = "";
+    this.priority = "low";
+    this.due_date = null;
+    this.tags = null;
+    this.assigned_user = null;
+    this.done = false;
+    this.done_date = null;
+    this.creation_date = new Date();
+
+    this.createFromObject(obj);
+  }
+
+  createFromObject(obj) {
+    for (const key in obj) {
+      if (key in this) this[key] = obj[key];
+    }
+  }
+}
 
 /**
  * Returns all ToDo's

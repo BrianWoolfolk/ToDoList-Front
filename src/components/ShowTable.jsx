@@ -2,6 +2,7 @@ import { useLocation, useNavigate } from "react-router";
 import { fromInputDate, intoInputDate } from "../scripts/scripts";
 import { useFetcher } from "react-router-dom";
 import { useState } from "react";
+import { ToDo } from "../utils/SimulateBack";
 
 /** SHORTCUT */
 const NEXT = { true: false, false: null, null: true };
@@ -9,7 +10,7 @@ const NEXT = { true: false, false: null, null: true };
 /**
  *
  * @param {{
- * data: import("../utils/SimulateBack").ToDo[],
+ * data: ToDo[],
  * page: number,
  * maxpage: number,
  * onEdit: () => void,
