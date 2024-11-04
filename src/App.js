@@ -133,10 +133,16 @@ async function toggleDone(req) {
     },
   };
 
-  const response = await fetch(
-    `${LOCALHOST}/todos/${id}/${status}${s}`,
-    requestOptions
-  );
+  let response = null;
+  if (status === "all") {
+    console.log(s);
+    response = await fetch(`${LOCALHOST}/todos/markAll?${s}`, requestOptions);
+  } else {
+    response = await fetch(
+      `${LOCALHOST}/todos/${id}/${status}`,
+      requestOptions
+    );
+  }
 
   if (!response.ok) throw response;
 

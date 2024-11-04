@@ -2,7 +2,7 @@ import { useLocation, useNavigate } from "react-router";
 import { fromInputDate, intoInputDate } from "../scripts/scripts";
 import { useFetcher } from "react-router-dom";
 import { useState } from "react";
-import { ToDo } from "../utils/SimulateBack";
+import { Sorts, ToDo } from "../utils/SimulateBack";
 
 /** SHORTCUT */
 const NEXT = { true: false, false: null, null: true };
@@ -21,8 +21,7 @@ const ShowTable = (props) => {
   const navigate = useNavigate();
   const location = useLocation();
   const fetcher = useFetcher();
-  const [sortPriority, setSortPriority] = useState(null);
-  const [sortDueDate, setSortDueDate] = useState(null);
+  const [sortCriteria, setSortCriteria] = useState(new Sorts());
 
   function r(p) {
     if (p > props.maxpage || p < 1) {
@@ -34,16 +33,21 @@ const ShowTable = (props) => {
     return () => navigate(`${location.pathname}?${s}`);
   }
 
-  function applyFilters(is_prior) {
-    const prio = is_prior ? NEXT[sortPriority] : sortPriority;
-    const duedat = !is_prior ? NEXT[sortDueDate] : sortDueDate;
-
+  /** @param {string} sortKey  */
+  function applyFilters(sortKey) {
+    const newSort = new Sorts();
+    newSort.createFromObject(sortCriteria);
     const s = new URLSearchParams(location.search);
-    s.set("sortPriority", prio ?? "");
-    s.set("sortDueDate", duedat ?? "");
 
-    setSortPriority(prio);
-    setSortDueDate(duedat);
+    newSort[sortKey] = NEXT[newSort[sortKey]];
+    const newURLSearchParams = newSort.createURLSearchParams();
+    console.log(newSort);
+    newURLSearchParams.forEach((value, key) => {
+      if (value === "" || value === undefined) s.delete(key);
+      else s.set(key, value);
+    });
+
+    setSortCriteria(newSort);
 
     navigate(`${location.pathname}?${s}`);
   }
@@ -53,10 +57,12 @@ const ShowTable = (props) => {
 
     const markAs = e.target.checked;
     const s = new URLSearchParams(location.search);
-    const page = s.get("pag") || "1";
+    s.set("done", markAs);
+    s.set("pag", s.get("pag") || "0");
+    console.log(markAs, s.toString());
     fetcher.submit(null, {
-      action: `/todos/0/${markAs ? "done" : "undone"}?inPage=${page}`,
-      method: markAs ? "POST" : "PUT",
+      action: `/todos/0/all?${s}`,
+      method: "PUT",
     });
   }
 
@@ -84,17 +90,71 @@ const ShowTable = (props) => {
             </th>
             <th>Name</th>
             <th>
-              <button className="as-link" onClick={() => applyFilters(true)}>
+              <button
+                className="as-link"
+                onClick={() => applyFilters("sortByPriority")}
+              >
                 {"Priority "}
-                {sortPriority === null ? "◉" : sortPriority ? "▼" : "▲"}
+                {sortCriteria.sortByPriority === null
+                  ? "◉"
+                  : sortCriteria.sortByPriority
+                  ? "▼"
+                  : "▲"}
               </button>
             </th>
             <th>
-              <button className="as-link" onClick={() => applyFilters(false)}>
+              <button
+                className="as-link"
+                onClick={() => applyFilters("sortByDueDate")}
+              >
                 {"Due Date "}
-                {sortDueDate === null ? "◉" : sortDueDate ? "▼" : "▲"}
+                {sortCriteria.sortByDueDate === null
+                  ? "◉"
+                  : sortCriteria.sortByDueDate
+                  ? "▼"
+                  : "▲"}
               </button>
             </th>
+            <th>
+              <button
+                className="as-link"
+                onClick={() => applyFilters("sortByCreationDate")}
+              >
+                {"Creation Date "}
+                {sortCriteria.sortByCreationDate === null
+                  ? "◉"
+                  : sortCriteria.sortByCreationDate
+                  ? "▼"
+                  : "▲"}
+              </button>
+            </th>
+            <th>
+              <button
+                className="as-link"
+                onClick={() => applyFilters("sortByDoneDate")}
+              >
+                {"Done Date "}
+                {sortCriteria.sortByDoneDate === null
+                  ? "◉"
+                  : sortCriteria.sortByDoneDate
+                  ? "▼"
+                  : "▲"}
+              </button>
+            </th>
+            <th>
+              <button
+                className="as-link"
+                onClick={() => applyFilters("sortByAssignedUser")}
+              >
+                {"Assigned User "}
+                {sortCriteria.sortByAssignedUser === null
+                  ? "◉"
+                  : sortCriteria.sortByAssignedUser
+                  ? "▼"
+                  : "▲"}
+              </button>
+            </th>
+            <th>Tags</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -143,6 +203,15 @@ const ShowTable = (props) => {
                     {item.due_date ? intoInputDate(item.due_date) : "-"}
                   </td>
 
+                  <td className={cNameStrike}>
+                    {intoInputDate(item.creation_date)}
+                  </td>
+                  <td className={cNameStrike}>
+                    {item.done_date ? intoInputDate(item.done_date) : "-"}
+                  </td>
+                  <td className={cNameStrike}>{item.assigned_user || "-"}</td>
+                  <td className={cNameStrike}>{item.tags || "-"}</td>
+
                   <td>
                     <button
                       className="as-link"
@@ -163,7 +232,7 @@ const ShowTable = (props) => {
             })
           ) : (
             <tr>
-              <td colSpan={5}>Empty!</td>
+              <td colSpan={9}>Empty!</td>
             </tr>
           )}
         </tbody>

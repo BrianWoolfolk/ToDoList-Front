@@ -86,21 +86,21 @@ export class Filters {
 
 export class Sorts {
   /** @type {boolean? | undefined} */
-  sortByDone = undefined;
+  sortByDone = null;
   /** @type {boolean? | undefined} */
-  sortByText = undefined;
+  sortByText = null;
   /** @type {boolean? | undefined} */
-  sortByPriority = undefined;
+  sortByPriority = null;
   /** @type {boolean? | undefined} */
-  sortByDueDate = undefined;
+  sortByDueDate = null;
   /** @type {boolean? | undefined} */
-  sortByCreationDate = undefined;
+  sortByCreationDate = null;
   /** @type {boolean? | undefined} */
-  sortByDoneDate = undefined;
+  sortByDoneDate = null;
   /** @type {boolean? | undefined} */
-  sortByAssignedUser = undefined;
+  sortByAssignedUser = null;
   /** @type {string[]? | undefined} */
-  sortOrder = undefined;
+  sortOrder = null;
 
   createFromObject(obj) {
     for (const key in obj) {
@@ -108,10 +108,12 @@ export class Sorts {
     }
   }
 
-  createURLSearchParams() {
+  createURLSearchParams(ignoreEmpty = false) {
     const s = new URLSearchParams();
     for (const key in this) {
-      if (this[key] !== undefined) s.set(key, this[key]);
+      if (this[key] !== undefined && (!ignoreEmpty || this[key])) {
+        s.set(key, this[key] ?? "");
+      }
     }
 
     return s;
