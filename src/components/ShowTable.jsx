@@ -41,7 +41,6 @@ const ShowTable = (props) => {
 
     newSort[sortKey] = NEXT[newSort[sortKey]];
     const newURLSearchParams = newSort.createURLSearchParams();
-    console.log(newSort);
     newURLSearchParams.forEach((value, key) => {
       if (value === "" || value === undefined) s.delete(key);
       else s.set(key, value);
@@ -57,9 +56,8 @@ const ShowTable = (props) => {
 
     const markAs = e.target.checked;
     const s = new URLSearchParams(location.search);
-    s.set("done", markAs);
+    s.set("markAs", markAs);
     s.set("pag", s.get("pag") || "0");
-    console.log(markAs, s.toString());
     fetcher.submit(null, {
       action: `/todos/0/all?${s}`,
       method: "PUT",

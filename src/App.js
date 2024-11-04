@@ -78,8 +78,6 @@ async function editTodo(req) {
   myHeaders.append("Content-Type", "application/json");
   myHeaders.append("Authorization", `Bearer ${GS.token}`);
 
-  console.log(id, text, priority, due_date, tags, assigned_user);
-
   const raw = JSON.stringify({
     text: text ? text.toString() : undefined,
     priority: priority ? priority.toString().toUpperCase() : undefined,
@@ -89,8 +87,6 @@ async function editTodo(req) {
     tags: tags ? tags.split(",") : null,
     assigned_user: assigned_user || null,
   });
-
-  console.log(raw);
 
   const requestOptions = {
     method: req.request.method,
@@ -135,8 +131,7 @@ async function toggleDone(req) {
 
   let response = null;
   if (status === "all") {
-    console.log(s);
-    response = await fetch(`${LOCALHOST}/todos/markAll?${s}`, requestOptions);
+    response = await fetch(`${LOCALHOST}/todos/markAll${s}`, requestOptions);
   } else {
     response = await fetch(
       `${LOCALHOST}/todos/${id}/${status}`,
